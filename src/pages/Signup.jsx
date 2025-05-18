@@ -5,6 +5,7 @@ import { createUser } from "../api/user_api";
 import { nicknameUser } from "../api/user_api";
 
 import Swal from 'sweetalert2';
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
     const [name, setName] = useState("");
     const [nickname, setNickName] = useState("");
@@ -12,7 +13,7 @@ const Signup = () => {
     const [phone, setPhone] = useState("");
     const [pw, setPW] = useState("");
     const [available, setIsAvailable] = useState(null);
-
+    const navigate = useNavigate();
    //제출가능여부
     const valid = nickname.trim().length >= 2 &&
         available === true &&
@@ -93,7 +94,7 @@ const Signup = () => {
             <div>
                 <button type="submit" id="signup_bt"
                     onClick={(e) => {
-                        e.preventDefault();
+                        // e.preventDefault();
                         if(!valid){
                             Swal.fire({
                                 title: "입력한 정보를 다시 확인해주세요.",
@@ -110,6 +111,7 @@ const Signup = () => {
                                 icon: "success",
                                 draggable: true
                             });
+                             navigate("/users/login");
                         }
                       
                     }}>회원 가입</button>
