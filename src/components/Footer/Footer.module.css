@@ -1,0 +1,57 @@
+.footer {
+  box-sizing: border-box; /* 최우선 적용 */
+  background-color: #343a40;
+  color: #adb5bd;
+  padding: 30px 5%; /* 좌우 패딩을 %로 */
+  font-size: 0.9em;
+  width: 100%;
+}
+
+.footerContent {
+  box-sizing: border-box; /* 내부 콘텐츠 영역도 확인 */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%; /* .footer의 padding 안쪽에서 100%를 차지 */
+  margin: 0 auto 20px auto;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.brandInfo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* 줄어들지 않도록 */
+}
+
+.brandIcon {
+  font-size: 2.5em;
+  margin-right: 10px;
+  color: #fff;
+}
+
+.brandName {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.footerLinks {
+  text-align: right;
+  /* flex-grow: 1; */ /* 필요시 공간 채우도록 */
+}
+
+.footerLinks p {
+  margin: 5px 0;
+  white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.copyright {
+  text-align: center;
+  font-size: 0.8em;
+  border-top: 1px solid #495057;
+  padding-top: 20px;
+  color: #888;
+  clear: both; /* flex-wrap으로 인해 요소가 엉킬 경우 대비 */
+}
