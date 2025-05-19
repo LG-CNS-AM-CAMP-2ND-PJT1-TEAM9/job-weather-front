@@ -38,6 +38,11 @@ label{
  margin-top: 5px;
 }
 
+#signup_checkemail {
+  font-size: 0.7em;
+  margin-left: 350px;
+  margin-top: 5px;
+}
 
 
 #emailFormat{

@@ -1,11 +1,11 @@
 import { useState } from "react";
 
 import './Signup.css'
-import { createUser } from "../api/user_api";
-import { nicknameUser } from "../api/user_api";
-
+import { createUser ,emailCheck,nicknameUser} from "../api/user_api";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+
+
 const Signup = () => {
     const [name, setName] = useState("");
     const [nickname, setNickName] = useState("");
@@ -13,6 +13,7 @@ const Signup = () => {
     const [phone, setPhone] = useState("");
     const [pw, setPW] = useState("");
     const [available, setIsAvailable] = useState(null);
+    const [checkemail, setCheckEmail] = useState(null);
     const navigate = useNavigate();
    //제출가능여부
     const valid = nickname.trim().length >= 2 &&
@@ -21,7 +22,7 @@ const Signup = () => {
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) &&
         pw.trim() !== "" &&
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) &&
-        name.trim() !== "";
+        name.trim() !== ""&&checkemail === false ;
         
     const handleKakaoOauthLogin = () => {
         // window.location.href = `${url}/oauth2/authorization/kakao`;
@@ -74,8 +75,26 @@ const Signup = () => {
                             *이메일 형식이 올바르지 않습니다.
                         </div>
                     )}
+                    {email.length > 0 && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && checkemail === true && (
+                        <div id="signup_checkemail" style={{ color: "red" }}>
+                            *가입한 이메일 입니다.
+                        </div>
+                    )}
+
                 </label>
-                <input type="text" className="form-control" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input type="text" className="form-control" id="email" name="email" value={email}
+                    onChange={async (e) => {
+                        const newEmail = e.target.value;
+                        setEmail(newEmail);
+
+                        if (newEmail.trim() === "") {
+                            setCheckEmail(null);
+                            return;
+                        }
+
+                        const checkemail = await emailCheck(newEmail);
+                        setCheckEmail(checkemail);
+                    }} />
             </div>
             <div className="form-group">
                 <label>전화번호</label>
