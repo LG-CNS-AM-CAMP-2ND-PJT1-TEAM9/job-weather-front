@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"; // useEffect 추가 import
+import React, { useState, useEffect } from "react";
 import styles from './job_search.module.css';
 
 const JobSearch = () => {
@@ -18,7 +18,7 @@ const JobSearch = () => {
     const [isEmploymentTypeOpen, setIsEmploymentTypeOpen] = useState(false);
 
     useEffect(() => {
-        
+
         // 지역 임시 데이터
         const dummyLocations = [
             { id: 'loc-seoul', name: '서울' },
