@@ -18,10 +18,7 @@ const JobSearch = () => {
     const [isEmploymentTypeOpen, setIsEmploymentTypeOpen] = useState(false);
 
     useEffect(() => {
-
-        //여기에 실제 API 호출 로직을 작성
-        // 예: fetch('/api/locations').then(res => res.json()).then(data => setLocations(data));
-
+        
         // 지역 임시 데이터
         const dummyLocations = [
             { id: 'loc-seoul', name: '서울' },
