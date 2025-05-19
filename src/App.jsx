@@ -5,6 +5,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Signup from './pages/signup'
 import Login from './pages/Login'
+import News from './pages/News'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -14,6 +15,7 @@ function App() {
     <Routes>
       <Route path='/users/login' element={<Login/>}/>
       <Route path='/users/signup' element={<Signup/>}/>
+      <Route path='/news' element={<News/>}/>
     </Routes>
     </BrowserRouter>
   )
