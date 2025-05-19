@@ -60,20 +60,20 @@ label{
     margin-right: 8%;
 }
 
-.loginkakao{
-    width: 15vw !important;
+.loginkakao {
+  width: 18vw !important;
   margin: 3%;
-  margin-right: 18%;
-}
-.loginnaver{
-    width: 15vw !important;
-  margin: 3%;
+  height: 60px;
+  margin-right: 5%;
 }
 
-#resetPw{
-    margin-left: 30vw;
+.loginnaver {
+  width: 18vw !important;
+  height: 60px;
+  margin: 3%;
+}
+#urls>a{
+     text-align: center;
+    color:black;
 }
 
-#resetPw{
-  color:black;
-}
