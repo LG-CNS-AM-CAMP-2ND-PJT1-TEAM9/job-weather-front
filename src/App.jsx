@@ -5,6 +5,7 @@ import './App.css'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Signup from './pages/signup'
 import Login from './pages/Login'
+import JobSearch from './pages/job_search/job_search.jsx'
 import Resetpw from './pages/Resetpw'
 import MainPage from './pages/MainPage/MainPage';
 
@@ -41,6 +42,7 @@ function App() {
         <Route path='/users/login' element={<Login/>}/>
         <Route path='/users/signup' element={<Signup/>}/>
         <Route path='/users/reset-password' element={<Resetpw/>}/>
+        <Route path='/job_search' element={<JobSearch/>}/>
       </Routes>
     </BrowserRouter>
   );
