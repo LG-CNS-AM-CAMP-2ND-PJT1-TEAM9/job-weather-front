@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'; // useEffect 추가
-// import reactLogo from './assets/react.svg';
-// import viteLogo from '/vite.svg';
-import './App.css'; // 수정된 App.css를 import
+import { useState, useEffect } from 'react';
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import Signup from './pages/signup';
-import Login from './pages/Login';
+import Signup from './pages/signup'
+import Login from './pages/Login'
+import Resetpw from './pages/Resetpw'
 import MainPage from './pages/MainPage/MainPage';
 
 // 라우트에 따라 다른 레이아웃 클래스를 적용하기 위한 내부 컴포넌트
@@ -36,7 +37,11 @@ function AppLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <AppLayout />
+      <Routes>
+        <Route path='/users/login' element={<Login/>}/>
+        <Route path='/users/signup' element={<Signup/>}/>
+        <Route path='/users/reset-password' element={<Resetpw/>}/>
+      </Routes>
     </BrowserRouter>
   );
 }

@@ -1,4 +1,4 @@
-.login-container{
+.resetpw-container{
     width: 50vw;
     max-width: 1200px;
     margin: 0 auto;
@@ -45,7 +45,7 @@ label{
  margin-top: 5px;
 }
 
-#login_bt{
+#save_bt{
     width : 40vw;
     max-width: 800px;
     margin: 20px;
@@ -72,8 +72,4 @@ label{
 
 #resetPw{
     margin-left: 30vw;
-}
-
-#resetPw{
-  color:black;
 }
