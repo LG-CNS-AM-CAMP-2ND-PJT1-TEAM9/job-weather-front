@@ -3,7 +3,8 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Signup from './pages/Signup'
+import Signup from './pages/signup'
+import Login from './pages/Login'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -11,7 +12,8 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='/signup' element={<Signup/>}/>
+      <Route path='/users/login' element={<Login/>}/>
+      <Route path='/users/signup' element={<Signup/>}/>
     </Routes>
     </BrowserRouter>
   )

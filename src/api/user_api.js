@@ -2,7 +2,6 @@ const API_BASE_URL="http://localhost:8080/users"
 
 //회원가입
 export const createUser = async (json) => {
-      console.log(json);
     const url = API_BASE_URL + "/signup";
     const res = await fetch(url,{
         method : "post",
@@ -29,4 +28,26 @@ export const nicknameUser = async (newNickname) =>{
     });
     const data = await res.json();
     return data;
+};
+
+
+//로그인
+export const userLogin = async (json) =>{
+    console.log(json);
+    const url = API_BASE_URL +"/login";
+    const res = await fetch(url,{
+        method : "post",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body: json,
+        credentials: "include",
+        mode: "cors",
+    });
+    if(res.status ==200){
+        const data = await res.json();
+        return { success: true, data };
+    }else{
+        return {success:false};
+    }
 };
