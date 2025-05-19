@@ -195,39 +195,30 @@ import React, { useState, useEffect } from "react";
 import styles from './job_search.module.css';
 
 const JobSearch = () => {
-    // ... (기존 상태 및 핸들러들)
-
     // 채용 공고 목록 상태 추가
     const [jobList, setJobList] = useState([]);
-    const [loading, setLoading] = useState(true); // 로딩 상태 관리 (선택 사항)
-    const [error, setError] = useState(null); // 오류 상태 관리 (선택 사항)
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
 
-    // 데이터 가져오기 (useEffect 안에서 API 호출 및 파싱)
+    // 데이터 가져오기
     useEffect(() => {
         const fetchJobData = async () => {
             try {
-                // TODO: 여기에 실제 사람인 API 엔드포인트 URL을 사용합니다.
-                // API 키 등 필요한 파라미터를 URL에 포함시키거나 헤더에 설정해야 합니다.
-                const response = await fetch('YOUR_SARAMIN_API_ENDPOINT');
+                const response = await fetch('여기에 내 api');
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const xmlText = await response.text(); // 응답을 텍스트로 받습니다.
+                const xmlText = await response.text();
 
-                // XML 파싱 (브라우저 내장 DOMParser 사용 예시)
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "application/xml");
 
-                // 파싱된 XML에서 <job> 요소 목록을 가져옵니다.
                 const jobsXml = xmlDoc.querySelectorAll('job');
 
-                // 각 <job> 요소에서 필요한 정보를 추출하여 JavaScript 객체 배열로 만듭니다.
                 const parsedJobs = Array.from(jobsXml).map(jobElement => {
-                    // XML 구조에 따라 각 요소의 텍스트 내용을 추출합니다.
-                    // querySelector 사용 시 요소가 없을 수 있으므로 안전하게 접근합니다.
                     const titleElement = jobElement.querySelector('position > title');
                     const companyNameElement = jobElement.querySelector('company > name');
                     const locationElement = jobElement.querySelector('position > location');
@@ -243,11 +234,12 @@ const JobSearch = () => {
                         experience: experienceElement?.textContent.trim() || '경력 정보 없음',
                         education: educationElement?.textContent.trim() || '학력 정보 없음',
                         url: urlElement?.textContent.trim() || '#',
-                        // 필요한 다른 정보들도 추출 가능
+
+                        // 필요하면 다른 정보들도 추출하기
                     };
                 });
 
-                setJobList(parsedJobs); // 파싱된 데이터로 상태 업데이트
+                setJobList(parsedJobs);
                 setLoading(false); // 로딩 완료
             } catch (error) {
                 console.error("채용 정보를 가져오는 중 오류 발생:", error);
@@ -256,16 +248,14 @@ const JobSearch = () => {
             }
         };
 
-        fetchJobData(); // useEffect 실행 시 데이터 가져오는 함수 호출
+        fetchJobData();
 
-    }, []); // 빈 의존성 배열: 컴포넌트 마운트 시 한 번만 실행
-
-    // ... (필터 상태 및 핸들러들)
+    }, []);
 
     return (
         <>
              <div className={styles['job-search-bar']}>
-                <input type="text" placeholder="2025년 상반기 공채 시작!" />
+                <input type="text" placeholder="검색어를 입력해주세요." />
             </div>
 
             <div className={styles['job-filters']}>
