@@ -1,4 +1,4 @@
-.login-container{
+.resetpw-container{
     width: 50vw;
     max-width: 1200px;
     margin: 0 auto;
@@ -6,7 +6,7 @@
     border : 2px solid black;
 }
 
-/*input {
+input {
  display: block;
  border : 1px solid black;
  width : 40vw;
@@ -16,7 +16,7 @@
  padding: 20px;
  box-sizing: border-box;
  height: 1vw;
-}*/
+}
 
 .form-group {
   margin-bottom: 20px;
@@ -45,7 +45,7 @@ label{
  margin-top: 5px;
 }
 
-#login_bt{
+#save_bt{
     width : 40vw;
     max-width: 800px;
     margin: 20px;
@@ -60,20 +60,8 @@ label{
     margin-right: 8%;
 }
 
-.loginkakao {
-  width: 18vw !important;
-  margin: 3%;
-  height: 60px;
-  margin-right: 5%;
-}
 
-.loginnaver {
-  width: 18vw !important;
-  height: 60px;
-  margin: 3%;
-}
-#urls>a{
-     text-align: center;
-    color:black;
-}
 
+#resetPw{
+    margin-left: 30vw;
+}
