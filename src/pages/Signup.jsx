@@ -24,9 +24,17 @@ const Signup = () => {
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) &&
         name.trim() !== ""&&checkemail === false ;
         
-    const handleKakaoOauthLogin = () => {
-        // window.location.href = `${url}/oauth2/authorization/kakao`;
-    }
+     const handleKakaoOauthLogin = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/users/kakaologin",{
+                method:"GET"
+            });
+            const kakaoLoginUrl = await res.text();
+            window.location.href = kakaoLoginUrl;
+        } catch (error) {
+            console.error("카카오 로그인 URL 요청 실패:", error);
+        }
+    };
     const handleNaverOauthLogin = () => {
         // window.location.href = `${url}/oauth2/authorization/kakao`;
     }
@@ -38,11 +46,11 @@ const Signup = () => {
                 <img className="naver" src="/img/NaverBtn.png" alt='Naver' onClick={handleNaverOauthLogin} />
             </div>
 
-            <div className="form-group">
+            <div className="signup-group">
                 <label>이름</label>
                 <input type="text" className="form-control" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
-            <div className="form-group">
+            <div className="signup-group">
                 <label>닉네임
                  {available === true && nickname.length>=2 && (
                     <div id="available" style={{ color: "green" }}>*사용 가능한 닉네임입니다.</div>
@@ -68,10 +76,10 @@ const Signup = () => {
                         setIsAvailable(available);
                     }} />
             </div>
-            <div className="form-group">
+            <div className="signup-group">
                 <label>이메일
                     {!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.length > 0 && (
-                        <div id="emailFormat" style={{ color: "red" }}>
+                        <div id="emailFormat_signup" style={{ color: "red" }}>
                             *이메일 형식이 올바르지 않습니다.
                         </div>
                     )}
@@ -96,11 +104,11 @@ const Signup = () => {
                         setCheckEmail(checkemail);
                     }} />
             </div>
-            <div className="form-group">
+            <div className="signup-group">
                 <label>전화번호</label>
                 <input type="text" className="form-control" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
-            <div className="form-group">
+            <div className="signup-group">
                 <label>비밀번호
                     { !/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
                         <div id="pwFormat" style={{color:"red"}}>

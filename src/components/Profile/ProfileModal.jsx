@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { printProfile } from "../../api/mypage_api";
+import { checkPw, printProfile } from "../../api/mypage_api";
 import styles from "./Profile.module.css";
 
 const ProfileModal = ({ onClose, onSubmit }) => {
+  const [step, setStep] = useState(1);
+  const [pw, setPw] = useState("");
   const [pwconfirm, setPwconfirm] = useState("");
   const [pwError, setPwError] = useState("");
   const [pwConfirmError, setPwConfirmError] = useState("");
@@ -22,6 +24,20 @@ const ProfileModal = ({ onClose, onSubmit }) => {
     };
     fetchData();
   }, []);
+
+  const handlecheckPw = async () => {
+    console.log("checkpw start");
+    console.log("pw", pw);
+    const res = await checkPw(pw);
+    console.log("backend res", res);
+
+    if (res.success) {
+      console.log("checkPw end");
+      setStep(2);
+    } else {
+      alert("비밀번호가 일치하지 않습니다!");
+    }
+  };
 
   const checkPW = (pw) => {
     const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
@@ -64,95 +80,124 @@ const ProfileModal = ({ onClose, onSubmit }) => {
       }
     }
   };
-
-  return ReactDOM.createPortal(
+  // ReactDOM.createPortal(
+  // ,
+  //     document.body
+  //   );
+  return (
     <div>
-      <div className={styles.modalOverlay} onClick={onClose}>
-        <div
-          className={styles.modalContent}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <h2>회원 정보 수정</h2>
-          <form className={styles.modalForm} onSubmit={onSubmit}>
-            <div className={styles.formRow}>
-              <label>이름</label>
-              <input
-                type="text"
-                name="userName"
-                value={profile.userName}
-                readOnly
-              />
-            </div>
-            <div className={styles.formRow}>
-              <label>이메일</label>
-              <input type="text" name="email" value={profile.email} readOnly />
-            </div>
-            <div className={styles.formRow}>
-              <label>닉네임</label>
-              <input
-                type="text"
-                name="userNickname"
-                value={profile.userNickname}
-                onChange={handleChange}
-              />
-            </div>
-            <div className={styles.formRow}>
-              <label>전화번호</label>
-              <input
-                type="text"
-                name="userPhone"
-                value={profile.userPhone}
-                onChange={handleChange}
-              />
-            </div>
-            <div className={styles.formRow}>
-              <label>비밀번호</label>
+      {step === 1 ? (
+        <div className={styles.checkModalOverlay}>
+          <div className={styles.checkModalContent}>
+            <div className={styles.checkModal}>
+              <h2>비밀번호 확인</h2>
+              <p>현재 비밀번호를 입력하세요.</p>
               <input
                 type="password"
-                name="userPw"
-                value={profile.userPw}
-                onChange={handleChange}
+                value={pw}
+                onChange={(e) => setPw(e.target.value)}
+                className={styles.input}
+                placeholder="비밀번호"
               />
-              <div className={styles.errorBox}>
-                {pwError && <p className={styles.errorText}>{pwError}</p>}
+              <div className={styles.buttonGroup}>
+                <button onClick={onClose}>취소</button>
+                <button onClick={handlecheckPw}>확인</button>
               </div>
             </div>
-            <div className={styles.formRow}>
-              <label>비밀번호 확인</label>
-              <div className={styles.inputConfirm}>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.modalOverlay} onClick={onClose}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2>회원 정보 수정</h2>
+            <form className={styles.modalForm} onSubmit={onSubmit}>
+              <div className={styles.formRow}>
+                <label>이름</label>
+                <input
+                  type="text"
+                  name="userName"
+                  value={profile.userName}
+                  readOnly
+                />
+              </div>
+              <div className={styles.formRow}>
+                <label>이메일</label>
+                <input
+                  type="text"
+                  name="email"
+                  value={profile.email}
+                  readOnly
+                />
+              </div>
+              <div className={styles.formRow}>
+                <label>닉네임</label>
+                <input
+                  type="text"
+                  name="userNickname"
+                  value={profile.userNickname}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formRow}>
+                <label>전화번호</label>
+                <input
+                  type="text"
+                  name="userPhone"
+                  value={profile.userPhone}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className={styles.formRow}>
+                <label>비밀번호</label>
                 <input
                   type="password"
-                  name="confirmPassword"
-                  onChange={checkPWConfirm}
+                  name="userPw"
+                  value={profile.userPw}
+                  onChange={handleChange}
                 />
                 <div className={styles.errorBox}>
-                  {pwConfirmError && (
-                    <p className={styles.errorText}>{pwConfirmError}</p>
-                  )}
+                  {pwError && <p className={styles.errorText}>{pwError}</p>}
                 </div>
               </div>
-            </div>
-            <div className={styles.modalButtons}>
-              <button type="button" onClick={onClose}>
-                취소
-              </button>
-              <button
-                type="submit"
-                disabled={
-                  pwError !== "" ||
-                  profile.userPw === "" ||
-                  profile.userNickname === "" ||
-                  profile.userPhone === ""
-                }
-              >
-                변경하기
-              </button>
-            </div>
-          </form>
+              <div className={styles.formRow}>
+                <label>비밀번호 확인</label>
+                <div className={styles.inputConfirm}>
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    onChange={checkPWConfirm}
+                  />
+                  <div className={styles.errorBox}>
+                    {pwConfirmError && (
+                      <p className={styles.errorText}>{pwConfirmError}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className={styles.modalButtons}>
+                <button type="button" onClick={onClose}>
+                  취소
+                </button>
+                <button
+                  type="submit"
+                  disabled={
+                    pwError !== "" ||
+                    profile.userPw === "" ||
+                    profile.userNickname === "" ||
+                    profile.userPhone === ""
+                  }
+                >
+                  변경하기
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
-    </div>,
-    document.body
+      )}
+    </div>
   );
 };
 
