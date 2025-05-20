@@ -1,0 +1,51 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  position: fixed;
+  background-color: #fff;
+  border-radius: 10px;
+  width: 40vw;
+  height: 30vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+.modalContent h2 {
+  margin-top: 1rem;
+  color: #333333;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.buttonGroup {
+  padding-top: 1rem;
+}
+
+.buttonGroup button {
+  padding: 10px 30px;
+  font-size: clamp(1em, 2vw, 1.1em);
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #555;
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: 5px;
+}
+
+.buttonGroup button + button {
+  margin-left: 40px;
+}
