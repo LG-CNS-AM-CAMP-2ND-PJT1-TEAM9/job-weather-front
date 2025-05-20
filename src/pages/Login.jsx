@@ -81,7 +81,7 @@ const Login = () => {
                     <img className="loginkakao" src="/img/KakaoLogin.png" alt='Kakao' onClick={handleKakaoOauthLogin} />
                     <img className="loginnaver" src="/img/NaverLogin.png" alt='Naver' onClick={handleNaverOauthLogin} />
                 </div>
-                <div id="resetPw">비밀번호 재설정</div>
+                <div id="urls"><a href="/users/signup">회원가입</a>/<a href="/users/reset-password">비밀번호 재설정</a></div>
             </div>
         </div>
     );

@@ -1,10 +1,37 @@
+/* App.css */
+
+/* #root는 전체 화면을 차지하는 기본 컨테이너 역할만 합니다. */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  display: flex; /* 자식 요소(AppLayout의 div)가 flex 아이템으로 동작하도록 */
+  flex-direction: column; /* 자식 요소가 수직으로 쌓이도록 */
+  min-height: 100vh; /* 최소 화면 전체 높이 */
+  width: 100%; /* 화면 전체 너비 */
 }
 
+/* 다른 페이지들 (로그인, 회원가입 등)을 위한 기본 레이아웃 클래스 */
+.app-layout-default {
+  width: 100%; /* 부모(#root) 너비 내에서 100%를 차지하려고 시도 */
+  max-width: 1280px; /* 최대 너비 제한 */
+  margin: 0 auto;    /* max-width가 적용될 때 중앙 정렬 */
+  padding: 2rem;     /* 기존 패딩 유지 */
+  text-align: center;  /* 기존 텍스트 정렬 유지 */
+  flex-grow: 1;      /* #root 내에서 남은 수직 공간을 채우도록 */
+  display: flex;       /* 내부 컨텐츠(각 페이지 컴포넌트) 정렬을 위해 */
+  flex-direction: column; /* 내부 컨텐츠를 수직으로 쌓음 */
+}
+
+/* MainPage를 위한 전체 너비 레이아웃 클래스 */
+.app-layout-main {
+  width: 100%;         /* 화면 전체 너비 사용 */
+  padding: 0;          /* MainPage는 자체적으로 패딩 관리 (이전 설정 유지) */
+  margin: 0;
+  text-align: left;    /* MainPage는 왼쪽 정렬을 기본으로 */
+  flex-grow: 1;      /* #root 내에서 남은 수직 공간을 채우도록 */
+  display: flex;       /* 내부 컨텐츠(MainPage 컴포넌트) 정렬을 위해 */
+  flex-direction: column; /* 내부 컨텐츠를 수직으로 쌓음 */
+}
+
+/* --- 기존 App.css의 나머지 스타일들 (.logo, .card 등) --- */
 .logo {
   height: 6em;
   padding: 1.5em;
