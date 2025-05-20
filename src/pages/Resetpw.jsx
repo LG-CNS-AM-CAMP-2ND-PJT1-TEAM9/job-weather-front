@@ -21,7 +21,7 @@ const Resetpw = () => {
     return(
         <div className="resetpw-container">
             <h2>비밀번호 재설정</h2>
-            <div className="form-group">
+            <div className="resetpw-group">
                 <label>이메일
                 {available === false && email.length>0 && (
                     <div id="available" style={{ color: "red" }}>*가입하지 않은 이메일 입니다.</div>
@@ -43,7 +43,7 @@ const Resetpw = () => {
                     }} />
             </div>
 
-            <div className="form-group">
+            <div className="resetpw-group">
                 <label>비밀번호
                     {!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
                         <div id="pwFormat" style={{ color: "red" }}>
