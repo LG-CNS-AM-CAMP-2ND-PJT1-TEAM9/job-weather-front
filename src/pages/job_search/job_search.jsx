@@ -26,36 +26,35 @@ const JobSearch = () => {
 
 
     // 데이터 가져오기
-    useEffect(() => {
-
-        //임시데이터
+     useEffect(() => {
         const dummyLocations = [
-            { id: 'loc-all', name: '전체' },
-            { id: 'loc-seoul', name: '서울' },
-            { id: 'loc-gyeongi', name: '경기' },
-            { id: 'loc-incheon', name: '인천' },
-            { id: 'loc-jeju', name: '제주' },
+            { id: 'loc-all', name: '전체', apiCode: '' },
+            { id: 'loc-seoul', name: '서울', apiCode: '101000' },
+            { id: 'loc-gyeongi', name: '경기', apiCode: '102000' },
+            { id: 'loc-incheon', name: '인천', apiCode: '103000' },
+            { id: 'loc-jeju', name: '제주', apiCode: '104000' },
         ];
         setLocations(dummyLocations);
         setSelectedLocation('전체');
 
         const dummyExperiences = [
-            { id: 'exp-all', name: '전체' },
-            { id: 'exp-new', name: '신입' },
-            { id: 'exp-career', name: '경력' },
-            { id: 'exp-none', name: '경력무관' },
+             { id: 'exp-all', name: '전체', apiCode: '' },
+            { id: 'exp-new', name: '신입', apiCode: '1' },
+            { id: 'exp-career', name: '경력', apiCode: '2' },
+            { id: 'exp-none', name: '경력무관', apiCode: '3' },
         ];
         setExperiences(dummyExperiences);
-        setSelectedLocation('전체');
+        setSelectedExperience('전체');
 
         const dummyEmploymentTypes = [
-            { id: 'type-all', name: '전체' },
-            { id: 'type-fulltime', name: '정규직' },
-            { id: 'type-contract', name: '계약직' },
-            { id: 'type-intern', name: '인턴' },
+            { id: 'type-all', name: '전체', apiCode: '' },
+            { id: 'type-fulltime', name: '정규직', apiCode: '1' },
+            { id: 'type-contract', name: '계약직', apiCode: '2' },
+            { id: 'type-intern', name: '인턴', apiCode: '4' },
         ];
         setEmploymentTypes(dummyEmploymentTypes);
         setSelectedEmploymentType('전체');
+
     }, []);
 
 
@@ -67,18 +66,24 @@ const JobSearch = () => {
             setJobList([]);
 
             try {
-                const apiUrl = '여기에 내 api' +
-                               `?keywords=${encodeURIComponent(searchTerm || '')}` + // 검색어 추가
-                               (selectedLocation && selectedLocation !== '전체' ? `&loc_cd=${encodeURIComponent(selectedLocation)}` : '') + // 지역 필터
-                               (selectedExperience && selectedExperience !== '전체' ? `&exp_cd=${encodeURIComponent(selectedExperience)}` : '') + // 경력 필터
-                               (selectedEmploymentType && selectedEmploymentType !== '전체' ? `&job_type=${encodeURIComponent(selectedEmploymentType)}` : ''); // 근무형태 필터
+                const locationApiCode = locations.find(loc => loc.name === selectedLocation)?.apiCode || '';
+                const experienceApiCode = experiences.find(exp => exp.name === selectedExperience)?.apiCode || '';
+                const employmentTypeApiCode = employmentTypes.find(type => type.name === selectedEmploymentType)?.apiCode || '';
+
+                const baseApiUrl = '여기에 실제 사람인 API';
+
+                const apiUrl = baseApiUrl +
+                               `?keywords=${encodeURIComponent(searchTerm || '')}` +
+                               (locationApiCode ? `&loc_cd=${encodeURIComponent(locationApiCode)}` : '') +
+                               (experienceApiCode ? `&exp_cd=${encodeURIComponent(experienceApiCode)}` : '') +
+                               (employmentTypeApiCode ? `&job_type=${encodeURIComponent(employmentTypeApiCode)}` : '');
 
                 console.log("Fetching data from:", apiUrl);
 
                 const response = await fetch(apiUrl);
 
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP error! status: ${response.status} from ${apiUrl}`);
                 }
 
                 const xmlText = await response.text();
@@ -86,13 +91,13 @@ const JobSearch = () => {
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, "application/xml");
 
-                const errorNode = xmlDoc.querySelector('parsererror');
-                 if (errorNode) {
-                     console.error('XML 파싱 오류:', errorNode.textContent);
-                     setError(new Error('XML 데이터 파싱 중 오류 발생'));
-                     setLoading(false);
-                     return;
-                 }
+                //const errorNode = xmlDoc.querySelector('parsererror');
+                // if (errorNode) {
+                //     console.error('XML 파싱 오류:', errorNode.textContent);
+                //     setError(new Error('XML 데이터 파싱 중 오류 발생'));
+                //     setLoading(false);
+                //     return;
+                // }
                 
                 const jobsXml = xmlDoc.querySelectorAll('job');
 
@@ -124,20 +129,22 @@ const JobSearch = () => {
                         // 필요하면 salary, industry 등 다른 정보들도 추출 가능
                     };
                 });
-
+                console.log("API data successfully fetched and parsed. Job count:", parsedJobs.length);
                 setJobList(parsedJobs);
-                setLoading(false); // 로딩 완료
+                setError(null);
             } catch (error) {
                 console.error("채용 정보를 가져오는 중 오류 발생:", error);
                 console.log("더미데이터로 정보 채우는 중")
                 setJobList(dummyJobs);
+                //setError(error);
                 setError(null);
             }finally {
                 setLoading(false);
+                console.log("Fetch process finished. Loading state set to false.");
             }
         };
 
-        //fetchJobData();
+        fetchJobData();
 
     }, [searchTerm, selectedLocation, selectedExperience, selectedEmploymentType]);
 
