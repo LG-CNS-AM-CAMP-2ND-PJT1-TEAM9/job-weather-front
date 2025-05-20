@@ -3,11 +3,12 @@ import { useState } from "react";
 import './Login.css'
 import Swal from 'sweetalert2';
 import { userLogin } from "../api/user_api";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [pw, setPW] = useState("");
-
+    const navigate = useNavigate();
 
     //제출가능여부
     const valid = email.trim() !== "" &&
@@ -15,9 +16,18 @@ const Login = () => {
         pw.trim() !== "" &&
         /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw);
 
-    const handleKakaoOauthLogin = () => {
-        // window.location.href = `${url}/oauth2/authorization/kakao`;
-    }
+    const handleKakaoOauthLogin = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/users/kakaologin", {
+                method: "get"
+            });
+            const kakaoLoginUrl = await res.text();
+            window.location.href = kakaoLoginUrl;
+        } catch (error) {
+            console.error("카카오 로그인 URL 요청 실패:", error);
+        }
+    };
+
     const handleNaverOauthLogin = () => {
         // window.location.href = `${url}/oauth2/authorization/kakao`;
     }
@@ -25,7 +35,7 @@ const Login = () => {
 
         <div className="login-container">
             <h1>job_Weather</h1>
-            <div className="form-group">
+            <div className="login-group">
                 <label>이메일
                     {!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.length > 0 && (
                         <div id="emailFormat" style={{ color: "red" }}>
@@ -36,7 +46,7 @@ const Login = () => {
                 <input type="text" className="form-control" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
 
-            <div className="form-group">
+            <div className="login-group">
                 <label>비밀번호
                     {!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
                         <div id="pwFormat" style={{ color: "red" }}>
@@ -47,7 +57,7 @@ const Login = () => {
                 <input type="password" className="form-control" id="pw" name="pw" value={pw} onChange={(e) => setPW(e.target.value)} />
             </div>
             <div>
-                <button type="submit" id="login_bt"
+                <button type="button" id="login_bt"
                     onClick={async (e) => {
                         e.preventDefault();
                         if (!valid) {
@@ -66,6 +76,7 @@ const Login = () => {
                                 icon: "success",
                                 draggable: true
                             });
+                             navigate("/");
                         } else {
                             Swal.fire({
                                 title: "로그인 실패",
