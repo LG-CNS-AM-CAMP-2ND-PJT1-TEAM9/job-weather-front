@@ -8,7 +8,7 @@ import Login from './pages/Login';
 import JobSearch from './pages/job_search/job_search.jsx'; // JobSearch 페이지 import 추가
 import Resetpw from './pages/Resetpw'; // 비밀번호 재설정 페이지 import
 import MainPage from './pages/MainPage/MainPage';
-import News from './pages/News'
+import News from './pages/News/News';
 
 
 // 라우트에 따라 다른 레이아웃 클래스를 적용하기 위한 내부 컴포넌트
