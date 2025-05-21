@@ -28,6 +28,7 @@ const JobSearch = () => {
 
     // 더미 필터 데이터 가져오기
       useEffect(() => {
+        console.log('필터 데이터를 가져오는 중');
         setLocations(dummyLocations);
         setSelectedLocation('전체');
 
@@ -36,7 +37,25 @@ const JobSearch = () => {
 
         setEmploymentTypes(dummyEmploymentTypes);
         setSelectedEmploymentType('전체');
+        console.log('필터 데이터 불러오기 완료');
     }, []);
+
+    const applyDummyFilters = (jobs, term, location, experience, employmentType) => {
+        console.log(`Applying dummy filters: term=${term}, loc=${location}, exp=${experience}, type=${employmentType}`);
+        return jobs.filter(job => {
+            const termMatch = !term ||
+                              (job.title && job.title.toLowerCase().includes(term.toLowerCase())) ||
+                              (job.companyName && job.companyName.toLowerCase().includes(term.toLowerCase()));
+
+            const locationMatch = location === '전체' || (job.location && job.location.includes(location));
+            const experienceMatch = experience === '전체' || (job.experience && job.experience.includes(experience));
+            const employmentTypeMatch = employmentType === '전체' || (job.title && job.title.includes(employmentType));
+
+            return termMatch && locationMatch && experienceMatch && employmentTypeMatch;
+        });
+    };
+
+
 
 
     useEffect(() => {
@@ -112,9 +131,9 @@ const JobSearch = () => {
                 });
                 console.log("API데이터를 성공적으로 가져왔습니다. 작업 수 : ", parsedJobs.length);
                 if (parsedJobs.length === 0) {
-                    console.log("API에서 불러오는 직업 정보가 0개이므로 더미데이터를 불러옵니다..");
-                    setJobList(dummyJobs);
-                    setError(new Error("API 결과가 없습니다. 임시 데이터를 표시합니다."));
+                    console.log("API returned 0 jobs. Falling back to dummy data and applying filters.");
+                    const filteredDummyJobs = applyDummyFilters(dummyJobs, searchTerm, selectedLocation, selectedExperience, selectedEmploymentType);
+                    setJobList(filteredDummyJobs);
                     setError(null);
                 } else {
                     setJobList(parsedJobs);
@@ -122,16 +141,16 @@ const JobSearch = () => {
                 }
             } catch (error) {
                 console.error("채용 정보를 가져오는 중 오류 발생:", error);
-                console.log("더미데이터로 정보 채우는 중")
-                setJobList(dummyJobs);
+                console.log("더미데이터로 정보 채우는 중 및 필터 적용")
+
+                 const filteredDummyJobs = applyDummyFilters(dummyJobs, searchTerm, selectedLocation, selectedExperience, selectedEmploymentType);
+                setJobList(filteredDummyJobs);
                 setError(error);
-                //setError(null);
             }finally {
                 setLoading(false);
                 console.log("가져오기 완료. 로딩 false로 변경.");
             }
         };
-
         fetchJobData();
 
     }, [searchTerm, selectedLocation, selectedExperience, selectedEmploymentType]);
