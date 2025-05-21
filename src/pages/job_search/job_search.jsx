@@ -281,7 +281,7 @@ const JobSearch = () => {
                         {job.education && <span className={styles['job-education']}>{job.education}</span>}
                     </div>
                     <div className={styles.bookmark}>☆</div>
-                     {job.url && job.url !== '#' && (
+                    {job.url && job.url !== '#' && (
                          <a href={job.url} target="_blank" rel="noopener noreferrer" className={styles['job-link']}>자세히 보기</a>
                     )}
                 </div>
