@@ -3,8 +3,10 @@ import { updateProfile } from "../../api/mypage_api";
 import ProfileModal from "./ProfileModal";
 import styles from "./Profile.module.css";
 import WithdrawalModal from "./WithdrawalModal";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
 
@@ -23,7 +25,8 @@ const Profile = () => {
 
     if (res.ok) {
       alert("수정되었습니다");
-      onClose();
+      onClose("profile");
+      navigate("/mypage");
     } else {
       alert("오류가 발생했습니다");
     }
@@ -48,7 +51,7 @@ const Profile = () => {
         )}
 
         <button
-          className={styles.deletePrfoileButton}
+          className={styles.profileButton}
           onClick={() => setDeleteModal(true)}
         >
           회원 탈퇴

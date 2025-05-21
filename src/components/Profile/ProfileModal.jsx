@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { checkPw, printProfile } from "../../api/mypage_api";
 import styles from "./Profile.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ProfileModal = ({ onClose, onSubmit }) => {
   const [step, setStep] = useState(1);
@@ -26,13 +27,9 @@ const ProfileModal = ({ onClose, onSubmit }) => {
   }, []);
 
   const handlecheckPw = async () => {
-    console.log("checkpw start");
-    console.log("pw", pw);
     const res = await checkPw(pw);
-    console.log("backend res", res);
 
     if (res.success) {
-      console.log("checkPw end");
       setStep(2);
     } else {
       alert("비밀번호가 일치하지 않습니다!");
@@ -80,15 +77,14 @@ const ProfileModal = ({ onClose, onSubmit }) => {
       }
     }
   };
-  // ReactDOM.createPortal(
-  // ,
-  //     document.body
-  //   );
   return (
     <div>
       {step === 1 ? (
-        <div className={styles.checkModalOverlay}>
-          <div className={styles.checkModalContent}>
+        <div className={styles.checkModalOverlay} onClick={onClose}>
+          <div
+            className={styles.checkModalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className={styles.checkModal}>
               <h2>비밀번호 확인</h2>
               <p>현재 비밀번호를 입력하세요.</p>
@@ -114,6 +110,10 @@ const ProfileModal = ({ onClose, onSubmit }) => {
           >
             <h2>회원 정보 수정</h2>
             <form className={styles.modalForm} onSubmit={onSubmit}>
+              <div className={styles.errorSummary}>
+                {pwError && <p>{pwError}</p>}
+                {pwConfirmError && <p>{pwConfirmError}</p>}
+              </div>
               <div className={styles.formRow}>
                 <label>이름</label>
                 <input
@@ -158,24 +158,14 @@ const ProfileModal = ({ onClose, onSubmit }) => {
                   value={profile.userPw}
                   onChange={handleChange}
                 />
-                <div className={styles.errorBox}>
-                  {pwError && <p className={styles.errorText}>{pwError}</p>}
-                </div>
               </div>
               <div className={styles.formRow}>
                 <label>비밀번호 확인</label>
-                <div className={styles.inputConfirm}>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    onChange={checkPWConfirm}
-                  />
-                  <div className={styles.errorBox}>
-                    {pwConfirmError && (
-                      <p className={styles.errorText}>{pwConfirmError}</p>
-                    )}
-                  </div>
-                </div>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  onChange={checkPWConfirm}
+                />
               </div>
               <div className={styles.modalButtons}>
                 <button type="button" onClick={onClose}>
