@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './job_search.module.css';
 import dummyJobs from '../../data/dummyJobs.jsx';
+import { dummyLocations, dummyExperiences, dummyEmploymentTypes } from '../../data/dummyFilter.jsx';
 
 const JobSearch = () => {
 
@@ -25,36 +26,16 @@ const JobSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
 
-    // 데이터 가져오기
-     useEffect(() => {
-        const dummyLocations = [
-            { id: 'loc-all', name: '전체', apiCode: '' },
-            { id: 'loc-seoul', name: '서울', apiCode: '101000' },
-            { id: 'loc-gyeongi', name: '경기', apiCode: '102000' },
-            { id: 'loc-incheon', name: '인천', apiCode: '103000' },
-            { id: 'loc-jeju', name: '제주', apiCode: '104000' },
-        ];
+    // 더미 필터 데이터 가져오기
+      useEffect(() => {
         setLocations(dummyLocations);
         setSelectedLocation('전체');
 
-        const dummyExperiences = [
-             { id: 'exp-all', name: '전체', apiCode: '' },
-            { id: 'exp-new', name: '신입', apiCode: '1' },
-            { id: 'exp-career', name: '경력', apiCode: '2' },
-            { id: 'exp-none', name: '경력무관', apiCode: '3' },
-        ];
         setExperiences(dummyExperiences);
         setSelectedExperience('전체');
 
-        const dummyEmploymentTypes = [
-            { id: 'type-all', name: '전체', apiCode: '' },
-            { id: 'type-fulltime', name: '정규직', apiCode: '1' },
-            { id: 'type-contract', name: '계약직', apiCode: '2' },
-            { id: 'type-intern', name: '인턴', apiCode: '4' },
-        ];
         setEmploymentTypes(dummyEmploymentTypes);
         setSelectedEmploymentType('전체');
-
     }, []);
 
 
@@ -167,17 +148,17 @@ const JobSearch = () => {
     
     const handleLocationChange = (event) => {
         setSelectedLocation(event.target.value);
-        setIsLocationFilterOpen(false);
+        //setIsLocationFilterOpen(false);
     };
 
     const handleExperienceChange = (event) => {
         setSelectedExperience(event.target.value);
-        setIsExperienceFilterOpen(false);
+        //setIsExperienceFilterOpen(false);
     };
 
     const handleEmploymentTypeChange = (event) => {
         setSelectedEmploymentType(event.target.value);
-        setIsEmploymentTypeOpen(false);
+        //setIsEmploymentTypeOpen(false);
     };
 
 
