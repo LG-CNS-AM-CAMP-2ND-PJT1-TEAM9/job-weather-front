@@ -1,81 +1,229 @@
+/* 전체 컨테이너 */
+.job-container {
+  display: flex; /* MainPageContainer와 유사하게 flex로 변경 */
+  flex-direction: column; /* MainPageContainer와 유사하게 flex-direction 설정 */
+  min-height: 100vh;
+  background-color: #f8fafc; /* 기존 배경색 유지 */
+  text-align: center;
+}
+
+/* 검색단 설정 */
 .job-search-bar {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    width: 80%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+  margin: 30px auto; /* 좌우 auto로 중앙 정렬 시도 */
+  padding: 0 20px; /* 내부 좌우 패딩 */
+  max-width: 700px; /* 검색창 최대 너비 */
+  width: 100%; /* 부모 너비에 맞춤 */
+  box-sizing: border-box;
 }
 
 .job-search-bar input {
-    width: 100%;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    box-sizing: border-box;
+  width: 100%;
+  /* max-width는 search-container에서 제어 */
+  /* margin: 0 auto; */ /* 삭제, search-container에서 중앙 정렬 */
+  position: relative;
+  background: #f1f5f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  padding: 12px 20px;
+  font-size: 16px;
+  outline: none;
+  height: 48px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #1e293b;
+  box-sizing: border-box;
 }
 
+.job-search-bar input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  background: white;
+}
+
+/* 검색 필터 설정 */
 .job-filters {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 80%;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    /* 필요하다면 여기에 flex-wrap: wrap; 을 추가하여 공간 부족 시 줄바꿈 되도록 할 수 있습니다. */
-    align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 80%;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  /* 필요하다면 여기에 flex-wrap: wrap; 을 추가하여 공간 부족 시 줄바꿈 되도록 할 수 있습니다. */
+  align-items: flex-start;
 }
 
 .job-filter-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    max-width: 200px;
-    min-width: 200px;
-    position: relative;
-    overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 200px;
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
 }
-
-.job-filter-box.open {
-    border-color: blue;
-}
-
 
 .job-filter-box > div:first-child {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
 }
-
-
 
 .location-options,
 .experience-options,
 .employment-type-options {
-    margin-top: 10px; 
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-start;
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 .filter-option-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .filter-option-label {
-    cursor: pointer;
-    margin-left: 5px;
+  cursor: pointer;
+  margin-left: 5px;
 }
+
+/* 로딩, 에러 메세지 설정 */
+.loading,
+.no-results {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #64748b;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin: 20px auto; /* 중앙 정렬 */
+  max-width: 800px; /* news-list와 유사한 너비 */
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  color: #dc2626;
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  margin: 20px auto; /* 중앙 정렬 */
+  max-width: 800px; /* news-list와 유사한 너비 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 검색 결과 설정 */
+.job-list {
+  max-width: 800px; /* 뉴스 목록 최대 너비 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 0 20px; /* 내부 좌우 패딩 */
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1;
+}
+
+.job-item {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: left;
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.job-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-color: #4a90e2;
+}
+
+.job-title {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+
+  margin: 0 0 12px 0;
+  font-size: 1.5rem;
+  color: #1e293b;
+  line-height: 1.4;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.job-company {
+  display: inline-block;
+  background-color: #eef4ff; /* 태그 배경색 (이미지 기반 추정) */
+  color: #0056b3; /* 태그 글자색 */
+  text-align: left;
+  padding: 4px 30px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.job-content {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  font-size: 0.9rem;
+  color: #64748b;
+  padding-top: 15px;
+}
+
+.job-meta {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 15px 0;
+  color: #475569;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  transition: color 0.3s ease;
+  border-top: 1px solid #e2e8f0;
+}
+
+.job-bookmark {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 5px;
+  transition: all 0.3s ease;
+  color: #94a3b8;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.job-bookmark:hover {
+  transform: scale(1.1);
+  background-color: #f1f5f9;
+}
+
+/* 스크랩 기능 구현 시 주석 해제 - 스크랩 된 별은 ★ */
+/* .job-bookmark.liked {
+  color: #f59e0b;
+  font-weight: bold;
+} */

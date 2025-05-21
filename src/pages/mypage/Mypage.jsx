@@ -25,14 +25,10 @@ const Mypage = () => {
   }, []);
 
   return (
-    <div>
-      <Header></Header>
-      <div className={StyleSheet.mypageContainer}>
-        <Profile></Profile>
-        <Liked></Liked>
-        <Custom></Custom>
-      </div>
-      <Footer></Footer>
+    <div className="mypageContainer">
+      <Profile></Profile>
+      <Liked></Liked>
+      <Custom></Custom>
     </div>
   );
 };
