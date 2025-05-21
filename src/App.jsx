@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import './App.css';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
@@ -9,6 +10,7 @@ import Resetpw from './pages/Resetpw';
 import MainPage from './pages/MainPage/MainPage';
 import News from './pages/News/News';
 import Header from './components/Header/Header';
+import Mypage from "./pages/mypage/Mypage.jsx";
 
 function PageRoutesWithLayout() {
   const location = useLocation();
@@ -33,6 +35,7 @@ function PageRoutesWithLayout() {
         <Route path='/users/reset-password' element={<Resetpw/>}/>
         <Route path='/job_search' element={<JobSearch/>}/>
         <Route path='/news' element={<News />} />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path='/' element={<MainPage/>}/>
       </Routes>
     </div>

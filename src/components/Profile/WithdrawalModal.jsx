@@ -36,35 +36,51 @@ const WithdrawalModal = ({ onClose }) => {
   };
 
   return (
-    <div className={styles.modalOverlay} onClick={onClose}>
-      <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        {step === 1 ? (
-          <>
-            <h2>비밀번호 확인</h2>
-            <p>현재 비밀번호를 입력하세요.</p>
-            <input
-              type="password"
-              value={pw}
-              onChange={(e) => setPw(e.target.value)}
-              className={styles.input}
-              placeholder="비밀번호"
-            />
-            <div className={styles.buttonGroup}>
-              <button onClick={onClose}>취소</button>
-              <button onClick={handlecheckPw}>확인</button>
+    <div>
+      {step === 1 ? (
+        <>
+          <div className={styles.modalOverlay} onClick={onClose}>
+            <div
+              className={styles.modalContent}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className={styles.checkModal}>
+                <h2>비밀번호 확인</h2>
+                <p>현재 비밀번호를 입력하세요.</p>
+                <input
+                  type="password"
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                  className={styles.input}
+                  placeholder="비밀번호"
+                />
+                <div className={styles.buttonGroup}>
+                  <button onClick={onClose}>취소</button>
+                  <button onClick={handlecheckPw}>확인</button>
+                </div>
+              </div>
             </div>
-          </>
-        ) : (
-          <>
-            <h2>회원 탈퇴 확인</h2>
-            <p>정말 회원 탈퇴를 진행하시겠습니까?</p>
-            <div className={styles.buttonGroup}>
-              <button onClick={onClose}>아니오</button>
-              <button onClick={handleWithdrawal}>예</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className={styles.modalOverlay} onClick={onClose}>
+            <div
+              className={styles.modalContent}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className={styles.checkModal}>
+                <h2>회원 탈퇴 확인</h2>
+                <p>정말 회원 탈퇴를 진행하시겠습니까?</p>
+                <div className={styles.buttonGroup}>
+                  <button onClick={onClose}>아니오</button>
+                  <button onClick={handleWithdrawal}>예</button>
+                </div>
+              </div>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

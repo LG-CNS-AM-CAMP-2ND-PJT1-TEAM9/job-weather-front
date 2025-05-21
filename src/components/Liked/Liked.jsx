@@ -52,14 +52,29 @@ const Liked = () => {
     <section className={styles.likedSection}>
       <TabMenu activeTab={activeTab} onTabClick={handleTabClick}></TabMenu>
       <div className={styles.contentGrid}>
-        {likedItems.length == 0 ? (
+        {/* activeTab에 따라 결과 반환 */}
+        {activeTab === "emp" && (!likedItems || likedItems.length === 0) && (
           <p className={styles.emptyMessage}>스크랩된 채용공고가 없습니다</p>
-        ) : (
+        )}
+
+        {activeTab === "news" && (!likedItems || likedItems.length === 0) && (
+          <p className={styles.emptyMessage}>스크랩된 뉴스가 없습니다</p>
+        )}
+
+        {activeTab === "emp" && likedItems && likedItems.length > 0 && (
           <LikedItem
             data={paginatedData}
             onUnLike={handleUnLike}
             type={activeTab}
-          ></LikedItem>
+          />
+        )}
+
+        {activeTab === "news" && likedItems && likedItems.length > 0 && (
+          <LikedItem
+            data={paginatedData}
+            onUnLike={handleUnLike}
+            type={activeTab}
+          />
         )}
       </div>
 
