@@ -61,7 +61,7 @@ const Signup = () => {
                 <input type="text" className="form-control" id="name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="signup-group">
-                <label>닉네임
+                <label>닉네임</label>
                  {available === true && nickname.length>=2 && (
                     <div id="available" style={{ color: "green" }}>*사용 가능한 닉네임입니다.</div>
                 )}
@@ -71,7 +71,7 @@ const Signup = () => {
                 {nickname.length<2 &&(
                 <div id="available" style={{color:"red"}}> *두 글자 이상 입력하십시오.
                     </div>)}
-                </label>
+                
                 <input type="text" className="form-control" id="nickname" name="nickname" value={nickname}
                     onChange={async (e) => {
                         const newNickname = e.target.value;
@@ -87,7 +87,7 @@ const Signup = () => {
                     }} />
             </div>
             <div className="signup-group">
-                <label>이메일
+                <label>이메일</label>
                     {!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.length > 0 && (
                         <div id="emailFormat_signup" style={{ color: "red" }}>
                             *이메일 형식이 올바르지 않습니다.
@@ -99,7 +99,7 @@ const Signup = () => {
                         </div>
                     )}
 
-                </label>
+                
                 <input type="text" className="form-control" id="email" name="email" value={email}
                     onChange={async (e) => {
                         const newEmail = e.target.value;
@@ -119,13 +119,13 @@ const Signup = () => {
                 <input type="text" className="form-control" id="phone" name="phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
             <div className="signup-group">
-                <label>비밀번호
+                <label>비밀번호</label>
                     { !/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
-                        <div id="pwFormat" style={{color:"red"}}>
-                            8~16자의 영문, 숫자, 특수기호 
+                        <div id="signup-pwFormat" style={{color:"red"}}>
+                            *8~16자의 영문, 숫자, 특수기호 
                         </div>
                     )}
-                </label>
+                
                 <input type="password" className="form-control" id="pw" name="pw" value={pw} onChange={(e) => setPW(e.target.value)} />
             </div>
             <div>

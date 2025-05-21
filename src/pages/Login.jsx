@@ -47,24 +47,24 @@ const Login = () => {
         <div className="login-container">
             <h1>job_Weather</h1>
             <div className="login-group">
-                <label>이메일
+                <label className="login-label">이메일</label>
                     {!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.length > 0 && (
-                        <div id="emailFormat" style={{ color: "red" }}>
+                        <span id="emailFormat" style={{ color: "red" }}>
                             *이메일 형식이 올바르지 않습니다.
-                        </div>
+                        </span>
                     )}
-                </label>
+                    
                 <input type="text" className="form-control" id="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
 
             <div className="login-group">
-                <label>비밀번호
+                <label className="login-label">비밀번호</label>
                     {!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
-                        <div id="pwFormat" style={{ color: "red" }}>
-                            8~16자의 영문, 숫자, 특수기호
-                        </div>
+                        <span id="pwFormat" style={{ color: "red" }}>
+                            *8~16자의 영문, 숫자, 특수기호
+                        </span>
                     )}
-                </label>
+                
                 <input type="password" className="form-control" id="pw" name="pw" value={pw} onChange={(e) => setPW(e.target.value)} />
             </div>
             <div>
