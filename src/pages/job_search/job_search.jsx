@@ -78,7 +78,7 @@ const JobSearch = () => {
                                (experienceApiCode ? `&exp_cd=${encodeURIComponent(experienceApiCode)}` : '') +
                                (employmentTypeApiCode ? `&job_type=${encodeURIComponent(employmentTypeApiCode)}` : '');
 
-                console.log("Fetching data from:", apiUrl);
+                console.log("다음에서 데이터를 가져오는 중 :", apiUrl);
 
                 const response = await fetch(apiUrl);
 
@@ -129,18 +129,25 @@ const JobSearch = () => {
                         // 필요하면 salary, industry 등 다른 정보들도 추출 가능
                     };
                 });
-                console.log("API data successfully fetched and parsed. Job count:", parsedJobs.length);
-                setJobList(parsedJobs);
-                setError(null);
+                console.log("API데이터를 성공적으로 가져왔습니다. 작업 수 : ", parsedJobs.length);
+                if (parsedJobs.length === 0) {
+                    console.log("API에서 불러오는 직업 정보가 0개이므로 더미데이터를 불러옵니다..");
+                    setJobList(dummyJobs);
+                    setError(new Error("API 결과가 없습니다. 임시 데이터를 표시합니다."));
+                    setError(null);
+                } else {
+                    setJobList(parsedJobs);
+                    setError(null);
+                }
             } catch (error) {
                 console.error("채용 정보를 가져오는 중 오류 발생:", error);
                 console.log("더미데이터로 정보 채우는 중")
                 setJobList(dummyJobs);
-                //setError(error);
-                setError(null);
+                setError(error);
+                //setError(null);
             }finally {
                 setLoading(false);
-                console.log("Fetch process finished. Loading state set to false.");
+                console.log("가져오기 완료. 로딩 false로 변경.");
             }
         };
 
