@@ -1,34 +1,38 @@
-import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import './App.css';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
-import Signup from './pages/signup'
-import Login from './pages/Login'
-import JobSearch from './pages/job_search/job_search.jsx'
-import Resetpw from './pages/Resetpw'
+
+import Signup from './pages/signup';
+import Login from './pages/Login';
+import JobSearch from './pages/job_search/job_search.jsx';
+import Resetpw from './pages/Resetpw';
 import MainPage from './pages/MainPage/MainPage';
+import News from './pages/News/News';
+import Header from './components/Header/Header';
 
-// 라우트에 따라 다른 레이아웃 클래스를 적용하기 위한 내부 컴포넌트
-function AppLayout() {
+function PageRoutesWithLayout() {
   const location = useLocation();
-  const [layoutClass, setLayoutClass] = useState('app-layout-default'); // 기본 레이아웃
+  const [layoutClass, setLayoutClass] = useState("app-layout-default"); // 기본값
 
-  // location.pathname이 변경될 때마다 적절한 레이아웃 클래스 설정
   useEffect(() => {
-    if (location.pathname === '/') { // MainPage 경로
-      setLayoutClass('app-layout-main');
+    const path = location.pathname;
+    if (path === '/' || path === '/news' || path === '/job_search') {
+      // MainPage, News, JobSearch는 전체 너비 레이아웃 사용
+      setLayoutClass("app-layout-main");
     } else {
-      setLayoutClass('app-layout-default');
+      // 그 외 페이지들(로그인, 회원가입 등)은 기본 중앙 정렬 레이아웃 사용
+      setLayoutClass("app-layout-default");
     }
-  }, [location.pathname]); // 경로가 변경될 때만 이 효과를 다시 실행
+  }, [location.pathname]);
 
   return (
-    // 이 div가 #root 바로 아래의 최상위 wrapper가 되어 레이아웃을 결정합니다.
     <div className={layoutClass}>
       <Routes>
         <Route path='/users/login' element={<Login/>}/>
         <Route path='/users/signup' element={<Signup/>}/>
+        <Route path='/users/reset-password' element={<Resetpw/>}/>
+        <Route path='/job_search' element={<JobSearch/>}/>
+        <Route path='/news' element={<News />} />
         <Route path='/' element={<MainPage/>}/>
       </Routes>
     </div>
@@ -38,12 +42,8 @@ function AppLayout() {
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path='/users/login' element={<Login/>}/>
-        <Route path='/users/signup' element={<Signup/>}/>
-        <Route path='/users/reset-password' element={<Resetpw/>}/>
-        <Route path='/job_search' element={<JobSearch/>}/>
-      </Routes>
+      <Header />
+      <PageRoutesWithLayout />
     </BrowserRouter>
   );
 }
