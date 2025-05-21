@@ -74,7 +74,7 @@ export const toggleLikeNews = async (newsSn) => {
       if (response.status === 401) {
         throw new Error('401');
       }
-      throw new Error('좋아요 처리에 실패했습니다.');
+      throw new Error('찜하기에 실패했습니다.');
     }
   } catch (error) {
     console.error('Error toggling like:', error);
