@@ -27,7 +27,8 @@ const Signup = () => {
      const handleKakaoOauthLogin = async () => {
         try {
             const res = await fetch("http://localhost:8080/users/kakaologin",{
-                method:"GET"
+                method:"get",
+                credentials: "include",
             });
             const kakaoLoginUrl = await res.text();
             window.location.href = kakaoLoginUrl;
@@ -35,9 +36,18 @@ const Signup = () => {
             console.error("카카오 로그인 URL 요청 실패:", error);
         }
     };
-    const handleNaverOauthLogin = () => {
-        // window.location.href = `${url}/oauth2/authorization/kakao`;
-    }
+      const handleNaverOauthLogin  = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/users/naverlogin", {
+                method: "get",
+                credentials: "include",
+            });
+            const naverLoginUrl = await res.text();
+            window.location.href = naverLoginUrl;
+        } catch (error) {
+            console.error("네이버 로그인 URL 요청 실패:", error);
+        }
+    };
     return (
 
         <div className="signup-container">
