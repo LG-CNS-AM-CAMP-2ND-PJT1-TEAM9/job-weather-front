@@ -1,0 +1,73 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modalContent {
+  position: fixed;
+  background-color: #fff;
+  border-radius: 10px;
+  width: 40vw;
+  /* height: 50vh; */
+  min-height: 350px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+}
+
+.checkModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.checkModal input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.modalContent p {
+  width: 100%;
+  font-weight: bold;
+  padding: 0.75rem 1rem;
+  font-size: 1.3rem;
+  box-sizing: border-box;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: auto;
+}
+
+.buttonGroup button {
+  margin-top: 3rem;
+  padding: 10px 30px;
+  font-size: clamp(1em, 2vw, 1.1em);
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  color: #555;
+  transition: background-color 0.2s, color 0.2s;
+  border-radius: 5px;
+}
+
+.buttonGroup button + button {
+  margin-left: 40px;
+}

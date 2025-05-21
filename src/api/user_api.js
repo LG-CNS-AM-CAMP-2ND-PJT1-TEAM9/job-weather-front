@@ -51,3 +51,34 @@ export const userLogin = async (json) =>{
         return {success:false};
     }
 };
+
+//회원가입 여부
+export const emailCheck = async (newEmail) =>{
+    const url = API_BASE_URL +"/email?email="+encodeURIComponent(newEmail) ;
+    const res = await fetch(url,{
+        method : "get",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        mode: "cors",
+    });
+    const data = await res.json();
+    return data;
+};
+
+//비밀번호 재설정
+export const resetPassWord = async (json) => {
+    console.log(json);
+    const url = API_BASE_URL + "/reset-password";
+    const res = await fetch(url,{
+        method : "post",
+        headers:{
+            "Content-Type":"application/json"
+        }, 
+        body: json,
+        mode: "cors",
+    });
+    const data = await res.json();
+    return data;
+
+};

@@ -1,0 +1,81 @@
+.job-search-bar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.job-search-bar input {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    box-sizing: border-box;
+}
+
+.job-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    /* 필요하다면 여기에 flex-wrap: wrap; 을 추가하여 공간 부족 시 줄바꿈 되도록 할 수 있습니다. */
+    align-items: flex-start;
+}
+
+.job-filter-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 200px;
+    min-width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.job-filter-box.open {
+    border-color: blue;
+}
+
+
+.job-filter-box > div:first-child {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+}
+
+
+
+.location-options,
+.experience-options,
+.employment-type-options {
+    margin-top: 10px; 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.filter-option-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.filter-option-label {
+    cursor: pointer;
+    margin-left: 5px;
+}
