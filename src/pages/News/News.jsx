@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from './News.module.css';
-import { fetchNews } from '../../api/news_api';
+import { fetchNews, getLikedNews, toggleLikeNews } from '../../api/news_api';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-
-
+import Cookies from 'js-cookie';
 
 const News = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,12 +12,7 @@ const News = () => {
   const [news, setNews] = useState([]);
   const [displayedNews, setDisplayedNews] = useState([]);
   const itemsPerPage = 20;
-  const [likes, setLikes] = useState(() => {
-    const savedLikes = localStorage.getItem('likedNews');
-    return new Set(savedLikes ? JSON.parse(savedLikes) : []);
-  });
-
-
+  const [likes, setLikes] = useState(new Set());
 
   // 뉴스 로드
   useEffect(() => {
@@ -28,8 +22,14 @@ const News = () => {
         setError(null);
         const data = await fetchNews(searchTerm);
         
-        setNews(data.items || []);
-        setDisplayedNews(data.items?.slice(0, itemsPerPage) || []);
+        // newsSn을 문자열로 변환
+        const mappedItems = data.items.map(item => ({
+          ...item,
+          newsSn: String(item.newsSn)
+        }));
+        
+        setNews(mappedItems || []);
+        setDisplayedNews(mappedItems?.slice(0, itemsPerPage) || []);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -40,16 +40,22 @@ const News = () => {
     getNews();
   }, [searchTerm]);
 
-
-
   // 검색
   const handleSearchInput = (e) => {
     setSearchTerm(e.target.value);
   };
 
+  // HTML 엔티티 디코딩 함수
+  const decodeHtmlEntities = (text) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+  };
+
   const highlightText = (text) => {
-    if (!searchTerm) return text;
-    const parts = text.split(new RegExp(`(${searchTerm})`, 'gi'));
+    if (!searchTerm) return decodeHtmlEntities(text);
+    const decodedText = decodeHtmlEntities(text);
+    const parts = decodedText.split(new RegExp(`(${searchTerm})`, 'gi'));
     return parts.map((part, index) => 
       part.toLowerCase() === searchTerm.toLowerCase() ? 
         <mark key={index}>{part}</mark> : 
@@ -57,26 +63,45 @@ const News = () => {
     );
   };
 
-
-
   // 좋아요
-  const handleLikeClick = (id) => {
-    setLikes(prev => {
-      const newLikes = new Set(prev);
-      if (newLikes.has(id)) {
-        newLikes.delete(id);
-      } else {
-        newLikes.add(id);
-      }
-      return newLikes;
-    });
-  };
-
   useEffect(() => {
-    localStorage.setItem('likedNews', JSON.stringify([...likes]));
-  }, [likes]);
+    const loadLikedNews = async () => {
+      try {
+        const likedNewsIds = await getLikedNews();
+        setLikes(new Set(likedNewsIds));
+      } catch (err) {
+        if (err.message === '401') {
+          setLikes(new Set());
+        } else {
+          console.error('Failed to load liked news:', err);
+        }
+      }
+    };
 
-
+    loadLikedNews();
+  }, []);
+  
+  const handleLikeClick = async (newsSn) => {
+    try {
+      await toggleLikeNews(newsSn);
+      setLikes(prev => {
+        const newLikes = new Set(prev);
+        if (newLikes.has(newsSn)) {
+          newLikes.delete(newsSn);
+        } else {
+          newLikes.add(newsSn);
+        }
+        return newLikes;
+      });
+    } catch (err) {
+      if (err.message === '401') {
+        alert('찜버튼은 로그인이 필요한 서비스입니다.');
+      } else {
+        console.error('Failed to toggle like:', err);
+        alert('찜하기 처리 중 오류가 발생했습니다.');
+      }
+    }
+  };
 
   // 더보기
   const hasMore = displayedNews.length < news.length;
@@ -88,8 +113,6 @@ const News = () => {
     setDisplayedNews(prev => [...prev, ...newItems]);
   };
 
-  
-  
   return (
     <div className={styles['news-container']}>
       <Header />
@@ -119,7 +142,7 @@ const News = () => {
         : 
           <>
             {displayedNews.map(item => (
-              <div key={item.id} className={styles['news-item']}>
+              <div key={item.newsSn} className={styles['news-item']}>
                 <a 
                   href={item.link}
                   target="_blank"
@@ -140,13 +163,13 @@ const News = () => {
                     })}
                   </span>
                   <button 
-                    className={`${styles['like-button']} ${likes.has(item.id) ? styles['liked'] : ''}`}
+                    className={`${styles['like-button']} ${likes.has(item.newsSn) ? styles['liked'] : ''}`}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleLikeClick(item.id);
+                      handleLikeClick(item.newsSn);
                     }}
                   >
-                    {likes.has(item.id) ? '★' : '☆'}
+                    {likes.has(item.newsSn) ? '★' : '☆'}
                   </button>
                 </div>
               </div>
