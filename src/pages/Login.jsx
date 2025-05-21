@@ -76,7 +76,7 @@ const Login = () => {
                                 icon: "success",
                                 draggable: true
                             });
-                             navigate("/");
+                            navigate("/");
                         } else {
                             Swal.fire({
                                 title: "로그인 실패",

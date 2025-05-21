@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './News.module.css';
-import { fetchNews } from '../../api/news_api';
-// import Header from '../../components/Header/Header'; // App.jsx에서 렌더링하므로 여기서 제거
-// import Footer from '../../components/Footer/Footer'; // App.jsx 또는 PageRoutesWithLayout에서 렌더링 고려
+import { fetchNews, getLikedNews, toggleLikeNews } from '../../api/news_api';
+import Cookies from 'js-cookie';
 
 const News = () => {
   // ... (기존 state 및 useEffect 로직은 동일) ...
@@ -12,19 +11,27 @@ const News = () => {
   const [news, setNews] = useState([]);
   const [displayedNews, setDisplayedNews] = useState([]);
   const itemsPerPage = 20;
-  const [likes, setLikes] = useState(() => {
-    const savedLikes = localStorage.getItem('likedNews');
-    return new Set(savedLikes ? JSON.parse(savedLikes) : []);
-  });
 
+  const [likes, setLikes] = useState(new Set());
+
+  // 뉴스 로드
   useEffect(() => {
     const getNews = async () => {
       try {
         setLoading(true);
         setError(null);
         const data = await fetchNews(searchTerm);
-        setNews(data.items || []);
-        setDisplayedNews(data.items?.slice(0, itemsPerPage) || []);
+
+        
+        // newsSn을 문자열로 변환
+        const mappedItems = data.items.map(item => ({
+          ...item,
+          newsSn: String(item.newsSn)
+        }));
+        
+        setNews(mappedItems || []);
+        setDisplayedNews(mappedItems?.slice(0, itemsPerPage) || []);
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -34,11 +41,23 @@ const News = () => {
     getNews();
   }, [searchTerm]);
 
-  const handleSearchInput = (e) => setSearchTerm(e.target.value);
+
+  // 검색
+  const handleSearchInput = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // HTML 엔티티 디코딩 함수
+  const decodeHtmlEntities = (text) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = text;
+    return textarea.value;
+  };
 
   const highlightText = (text) => {
-    if (!searchTerm) return text;
-    const parts = text.split(new RegExp(`(${searchTerm})`, 'gi'));
+    if (!searchTerm) return decodeHtmlEntities(text);
+    const decodedText = decodeHtmlEntities(text);
+    const parts = decodedText.split(new RegExp(`(${searchTerm})`, 'gi'));
     return parts.map((part, index) => 
       part.toLowerCase() === searchTerm.toLowerCase() ? 
         <mark key={index}>{part}</mark> : 
@@ -46,19 +65,48 @@ const News = () => {
     );
   };
 
-  const handleLikeClick = (id) => {
-    setLikes(prev => {
-      const newLikes = new Set(prev);
-      if (newLikes.has(id)) newLikes.delete(id);
-      else newLikes.add(id);
-      return newLikes;
-    });
+
+  // 좋아요
+  useEffect(() => {
+    const loadLikedNews = async () => {
+      try {
+        const likedNewsIds = await getLikedNews();
+        setLikes(new Set(likedNewsIds));
+      } catch (err) {
+        if (err.message === '401') {
+          setLikes(new Set());
+        } else {
+          console.error('Failed to load liked news:', err);
+        }
+      }
+    };
+
+    loadLikedNews();
+  }, []);
+  
+  const handleLikeClick = async (newsSn) => {
+    try {
+      await toggleLikeNews(newsSn);
+      setLikes(prev => {
+        const newLikes = new Set(prev);
+        if (newLikes.has(newsSn)) {
+          newLikes.delete(newsSn);
+        } else {
+          newLikes.add(newsSn);
+        }
+        return newLikes;
+      });
+    } catch (err) {
+      if (err.message === '401') {
+        alert('찜버튼은 로그인이 필요한 서비스입니다.');
+      } else {
+        console.error('Failed to toggle like:', err);
+        alert('찜하기 처리 중 오류가 발생했습니다.');
+      }
+    }
   };
 
-  useEffect(() => {
-    localStorage.setItem('likedNews', JSON.stringify([...likes]));
-  }, [likes]);
-
+  // 더보기
   const hasMore = displayedNews.length < news.length;
 
   const handleLoadMore = () => {
@@ -67,66 +115,70 @@ const News = () => {
     const newItems = news.slice(startIndex, endIndex);
     setDisplayedNews(prev => [...prev, ...newItems]);
   };
-  
+
+
+
   return (
     // News.jsx의 최상위 div는 App.jsx의 layoutClass를 받음
     // Header와 Footer는 App.jsx 또는 PageRoutesWithLayout에서 관리되므로 여기서 제거
     <div className={styles['news-container']}>
       {/* <Header /> */} {/* App.jsx에서 렌더링 */}
       
-      <div className={styles['content-wrapper']}> {/* 내부 콘텐츠를 감싸는 래퍼 */}
-        <div className={styles['search-container']}>
-          <input
-            type="text"
-            placeholder="뉴스 검색"
-            value={searchTerm}
-            onChange={handleSearchInput}
-            className={styles['search-input']}
-          />
-          {news.length > 0 && (
-            <div className={styles['search-results']}>
-              검색 결과: {news.length}건
-            </div>
-          )}
-        </div>
 
-        <div className={styles['news-list']}>
-          {loading ?
-            <div className={styles['loading']}>뉴스를 불러오는 중...</div>
-          : error ?
-            <div className={styles['error']}>{error}</div>
-          : displayedNews.length === 0 ?
-            <div className={styles['no-results']}>검색 결과가 없습니다.</div>
-          : 
-            <>
-              {displayedNews.map(item => (
-                <div key={item.id} className={styles['news-item']}>
-                  <a 
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles['news-content']}
+      <div className={styles['search-container']}>
+        <input
+          type="text"
+          placeholder="뉴스 검색"
+          value={searchTerm}
+          onChange={handleSearchInput}
+          className={styles['search-input']}
+        />
+        {news.length > 0 && (
+          <div className={styles['search-results']}>
+            검색 결과: {news.length}건
+          </div>
+        )}
+      </div>
+
+      <div className={styles['news-list']}>
+        {loading ?
+          <div className={styles['loading']}>뉴스를 불러오는 중...</div>
+        : error ?
+          <div className={styles['error']}>{error}</div>
+        : displayedNews.length === 0 ?
+          <div className={styles['no-results']}>검색 결과가 없습니다.</div>
+        : 
+          <>
+            {displayedNews.map(item => (
+              <div key={item.newsSn} className={styles['news-item']}>
+                <a 
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles['news-content']}
+                >
+                  <h2>{highlightText(item.title)}</h2>
+                  <p>{highlightText(item.description)}</p>
+                </a>
+                <div className={styles['news-meta']}>
+                  <span className={styles['date']}>
+                    {new Date(item.pubDate).toLocaleDateString('ko-KR', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                  <button 
+                    className={`${styles['like-button']} ${likes.has(item.newsSn) ? styles['liked'] : ''}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleLikeClick(item.newsSn);
+                    }}
                   >
-                    <h2>{highlightText(item.title)}</h2>
-                    <p>{highlightText(item.description)}</p>
-                  </a>
-                  <div className={styles['news-meta']}>
-                    <span className={styles['date']}>
-                      {new Date(item.pubDate).toLocaleDateString('ko-KR', {
-                        year: 'numeric', month: 'long', day: 'numeric',
-                        hour: '2-digit', minute: '2-digit'
-                      })}
-                    </span>
-                    <button 
-                      className={`${styles['like-button']} ${likes.has(item.id) ? styles['liked'] : ''}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleLikeClick(item.id);
-                      }}
-                    >
-                      {likes.has(item.id) ? '★' : '☆'}
-                    </button>
-                  </div>
+                    {likes.has(item.newsSn) ? '★' : '☆'}
+                  </button>
                 </div>
               ))}
               {hasMore && (
