@@ -1,24 +1,32 @@
-.news-container {
-  text-align: center;
-  padding: 0;
+/* News.module.css */
+
+.news-container { /* 이 클래스가 App.jsx의 app-layout-default와 함께 적용됨 */
+  display: flex; /* MainPageContainer와 유사하게 flex로 변경 */
+  flex-direction: column; /* MainPageContainer와 유사하게 flex-direction 설정 */
   min-height: 100vh;
-  background-color: #f8fafc;
-  width: 100vw;
-  margin: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
+  background-color: #f8fafc; /* 기존 배경색 유지 */
+  text-align: center; /* 기존 text-align 유지 또는 필요시 left로 변경 */
+  /* 아래 스타일들 제거 또는 수정 */
+  /* padding: 0; */ /* App.css의 app-layout-default에서 패딩을 관리하도록 하거나, 필요시 최소한의 내부 패딩 설정 */
+  /* width: 100vw; */ /* 제거 */
+  /* margin: 0; */    /* 제거 또는 필요에 따라 조정 */
+  /* position: absolute; */ /* 제거 */
+  /* left: 0; */ /* 제거 */
+  /* top: 0; */  /* 제거 */
 }
 
 .search-container {
-  margin: 30px 0;
-  padding: 0 20px;
+  margin: 30px auto; /* 좌우 auto로 중앙 정렬 시도 */
+  padding: 0 20px;   /* 내부 좌우 패딩 */
+  max-width: 700px;  /* 검색창 최대 너비 */
+  width: 100%;       /* 부모 너비에 맞춤 */
+  box-sizing: border-box;
 }
 
 .search-input {
   width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
+  /* max-width는 search-container에서 제어 */
+  /* margin: 0 auto; */ /* 삭제, search-container에서 중앙 정렬 */
   position: relative;
   background: #f1f5f9;
   border-radius: 8px;
@@ -33,6 +41,7 @@
   display: flex;
   align-items: center;
   color: #1e293b;
+  box-sizing: border-box;
 }
 
 .search-input:focus {
@@ -54,11 +63,15 @@
 }
 
 .news-list {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
+  max-width: 800px; /* 뉴스 목록 최대 너비 */
+  margin: 0 auto;   /* 중앙 정렬 */
+  padding: 0 20px;  /* 내부 좌우 패딩 */
+  width: 100%;
+  box-sizing: border-box;
+  flex-grow: 1; /* 푸터가 아래에 붙도록 남은 공간 채우기 */
 }
 
+/* 나머지 .news-item, .loading 등의 스타일은 기존과 거의 동일하게 유지 */
 .news-item {
   background-color: white;
   border-radius: 12px;
@@ -127,7 +140,7 @@ mark {
   color: #64748b;
 }
 
-.loading {
+.loading, .no-results {
   text-align: center;
   padding: 40px;
   font-size: 1.2rem;
@@ -135,7 +148,8 @@ mark {
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin: 20px 0;
+  margin: 20px auto; /* 중앙 정렬 */
+  max-width: 800px; /* news-list와 유사한 너비 */
 }
 
 .error {
@@ -145,18 +159,9 @@ mark {
   background-color: #fef2f2;
   border: 1px solid #fee2e2;
   border-radius: 12px;
-  margin: 20px 0;
+  margin: 20px auto; /* 중앙 정렬 */
+  max-width: 800px; /* news-list와 유사한 너비 */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.no-results {
-  text-align: center;
-  padding: 40px;
-  color: #64748b;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  margin: 20px 0;
 }
 
 .like-button {
@@ -207,5 +212,3 @@ mark {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
 }
-
-

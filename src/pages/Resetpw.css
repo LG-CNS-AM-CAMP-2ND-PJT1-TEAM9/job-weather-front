@@ -6,6 +6,7 @@
     border : 2px solid black;
 }
 
+
 .resetpw-group input {
   display: block;
   border: 1px solid black;
@@ -17,6 +18,7 @@
   box-sizing: border-box;
   height: 1vw;
 }
+
 
 .resetpw-group {
   margin-bottom: 20px;

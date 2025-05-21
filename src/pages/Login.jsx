@@ -19,7 +19,8 @@ const Login = () => {
     const handleKakaoOauthLogin = async () => {
         try {
             const res = await fetch("http://localhost:8080/users/kakaologin", {
-                method: "get"
+                method: "get",
+                credentials: "include",
             });
             const kakaoLoginUrl = await res.text();
             window.location.href = kakaoLoginUrl;
@@ -28,9 +29,19 @@ const Login = () => {
         }
     };
 
-    const handleNaverOauthLogin = () => {
-        // window.location.href = `${url}/oauth2/authorization/kakao`;
-    }
+    const handleNaverOauthLogin  = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/users/naverlogin", {
+                method: "get",
+                credentials: "include",
+            });
+            const naverLoginUrl = await res.text();
+            window.location.href = naverLoginUrl;
+        } catch (error) {
+            console.error("네이버 로그인 URL 요청 실패:", error);
+        }
+    };
+    
     return (
 
         <div className="login-container">
@@ -76,7 +87,7 @@ const Login = () => {
                                 icon: "success",
                                 draggable: true
                             });
-                             navigate("/");
+                            navigate("/");
                         } else {
                             Swal.fire({
                                 title: "로그인 실패",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './job_search.module.css';
 import dummyJobs from '../../data/dummyJobs.jsx';
+import { dummyLocations, dummyExperiences, dummyEmploymentTypes } from '../../data/dummyFilter.jsx';
 
 const JobSearch = () => {
 
@@ -25,36 +26,16 @@ const JobSearch = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
 
-    // 데이터 가져오기
-     useEffect(() => {
-        const dummyLocations = [
-            { id: 'loc-all', name: '전체', apiCode: '' },
-            { id: 'loc-seoul', name: '서울', apiCode: '101000' },
-            { id: 'loc-gyeongi', name: '경기', apiCode: '102000' },
-            { id: 'loc-incheon', name: '인천', apiCode: '103000' },
-            { id: 'loc-jeju', name: '제주', apiCode: '104000' },
-        ];
+    // 더미 필터 데이터 가져오기
+      useEffect(() => {
         setLocations(dummyLocations);
         setSelectedLocation('전체');
 
-        const dummyExperiences = [
-             { id: 'exp-all', name: '전체', apiCode: '' },
-            { id: 'exp-new', name: '신입', apiCode: '1' },
-            { id: 'exp-career', name: '경력', apiCode: '2' },
-            { id: 'exp-none', name: '경력무관', apiCode: '3' },
-        ];
         setExperiences(dummyExperiences);
         setSelectedExperience('전체');
 
-        const dummyEmploymentTypes = [
-            { id: 'type-all', name: '전체', apiCode: '' },
-            { id: 'type-fulltime', name: '정규직', apiCode: '1' },
-            { id: 'type-contract', name: '계약직', apiCode: '2' },
-            { id: 'type-intern', name: '인턴', apiCode: '4' },
-        ];
         setEmploymentTypes(dummyEmploymentTypes);
         setSelectedEmploymentType('전체');
-
     }, []);
 
 
@@ -78,7 +59,7 @@ const JobSearch = () => {
                                (experienceApiCode ? `&exp_cd=${encodeURIComponent(experienceApiCode)}` : '') +
                                (employmentTypeApiCode ? `&job_type=${encodeURIComponent(employmentTypeApiCode)}` : '');
 
-                console.log("Fetching data from:", apiUrl);
+                console.log("다음에서 데이터를 가져오는 중 :", apiUrl);
 
                 const response = await fetch(apiUrl);
 
@@ -129,18 +110,25 @@ const JobSearch = () => {
                         // 필요하면 salary, industry 등 다른 정보들도 추출 가능
                     };
                 });
-                console.log("API data successfully fetched and parsed. Job count:", parsedJobs.length);
-                setJobList(parsedJobs);
-                setError(null);
+                console.log("API데이터를 성공적으로 가져왔습니다. 작업 수 : ", parsedJobs.length);
+                if (parsedJobs.length === 0) {
+                    console.log("API에서 불러오는 직업 정보가 0개이므로 더미데이터를 불러옵니다..");
+                    setJobList(dummyJobs);
+                    setError(new Error("API 결과가 없습니다. 임시 데이터를 표시합니다."));
+                    setError(null);
+                } else {
+                    setJobList(parsedJobs);
+                    setError(null);
+                }
             } catch (error) {
                 console.error("채용 정보를 가져오는 중 오류 발생:", error);
                 console.log("더미데이터로 정보 채우는 중")
                 setJobList(dummyJobs);
-                //setError(error);
-                setError(null);
+                setError(error);
+                //setError(null);
             }finally {
                 setLoading(false);
-                console.log("Fetch process finished. Loading state set to false.");
+                console.log("가져오기 완료. 로딩 false로 변경.");
             }
         };
 
@@ -160,17 +148,17 @@ const JobSearch = () => {
     
     const handleLocationChange = (event) => {
         setSelectedLocation(event.target.value);
-        setIsLocationFilterOpen(false);
+        //setIsLocationFilterOpen(false);
     };
 
     const handleExperienceChange = (event) => {
         setSelectedExperience(event.target.value);
-        setIsExperienceFilterOpen(false);
+        //setIsExperienceFilterOpen(false);
     };
 
     const handleEmploymentTypeChange = (event) => {
         setSelectedEmploymentType(event.target.value);
-        setIsEmploymentTypeOpen(false);
+        //setIsEmploymentTypeOpen(false);
     };
 
 
@@ -293,7 +281,7 @@ const JobSearch = () => {
                         {job.education && <span className={styles['job-education']}>{job.education}</span>}
                     </div>
                     <div className={styles.bookmark}>☆</div>
-                     {job.url && job.url !== '#' && (
+                    {job.url && job.url !== '#' && (
                          <a href={job.url} target="_blank" rel="noopener noreferrer" className={styles['job-link']}>자세히 보기</a>
                     )}
                 </div>
