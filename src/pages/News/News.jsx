@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import styles from './News.module.css';
 import { fetchNews, getLikedNews, toggleLikeNews } from '../../api/news_api';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import Cookies from 'js-cookie';
 
 const News = () => {
+  // ... (기존 state 및 useEffect 로직은 동일) ...
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [news, setNews] = useState([]);
   const [displayedNews, setDisplayedNews] = useState([]);
   const itemsPerPage = 20;
+
   const [likes, setLikes] = useState(new Set());
 
   // 뉴스 로드
@@ -21,6 +21,7 @@ const News = () => {
         setLoading(true);
         setError(null);
         const data = await fetchNews(searchTerm);
+
         
         // newsSn을 문자열로 변환
         const mappedItems = data.items.map(item => ({
@@ -30,15 +31,16 @@ const News = () => {
         
         setNews(mappedItems || []);
         setDisplayedNews(mappedItems?.slice(0, itemsPerPage) || []);
+
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
     getNews();
   }, [searchTerm]);
+
 
   // 검색
   const handleSearchInput = (e) => {
@@ -62,6 +64,7 @@ const News = () => {
         part
     );
   };
+
 
   // 좋아요
   useEffect(() => {
@@ -113,10 +116,15 @@ const News = () => {
     setDisplayedNews(prev => [...prev, ...newItems]);
   };
 
+
+
   return (
+    // News.jsx의 최상위 div는 App.jsx의 layoutClass를 받음
+    // Header와 Footer는 App.jsx 또는 PageRoutesWithLayout에서 관리되므로 여기서 제거
     <div className={styles['news-container']}>
-      <Header />
+      {/* <Header /> */} {/* App.jsx에서 렌더링 */}
       
+
       <div className={styles['search-container']}>
         <input
           type="text"
@@ -172,22 +180,21 @@ const News = () => {
                     {likes.has(item.newsSn) ? '★' : '☆'}
                   </button>
                 </div>
-              </div>
-            ))}
-            {hasMore && (
-              <button 
-                className={styles['load-more-button']}
-                onClick={handleLoadMore}
-                disabled={loading}
-              >
-                {loading ? '로딩 중...' : '더보기'}
-              </button>
-            )}
-          </>
-        }
+              ))}
+              {hasMore && (
+                <button 
+                  className={styles['load-more-button']}
+                  onClick={handleLoadMore}
+                  disabled={loading}
+                >
+                  {loading ? '로딩 중...' : '더보기'}
+                </button>
+              )}
+            </>
+          }
+        </div>
       </div>
-
-      <Footer />
+      {/* <Footer /> */} {/* App.jsx 또는 PageRoutesWithLayout에서 렌더링 고려 */}
     </div>
   );
 };

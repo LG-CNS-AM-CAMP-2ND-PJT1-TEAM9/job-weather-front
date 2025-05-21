@@ -1,31 +1,55 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom'; // NavLink 추가 (활성 링크 스타일링용)
 import styles from './Header.module.css';
+// import { UserCircle } from 'lucide-react'; // 예시: 아이콘 라이브러리 사용 시
 
 function Header() {
-    return (
-        <header className={styles.header}>
-            <div className={styles.logo}>
-                <a href="/">Logo</a> {/* TODO: 로고 이미지 또는 컴포넌트로 교체 /}
-</div>
-<nav className={styles.navigation}>
-<ul>
-<li><a href="/">홈</a></li>
-<li><a href="/news">뉴스</a></li>
-<li><a href="/jobs">채용공고</a></li>
-<li>
-<a href="/link-four">
-Link Four <span className={styles.dropdownArrow}>▼</span> {/ TODO: 실제 드롭다운 아이콘으로 교체 /}
-</a>
-{/ TODO: 드롭다운 메뉴 구현 /}
-</li>
-</ul>
-</nav>
-<div className={styles.userActions}>
-{/ TODO: 사용자 아이콘 (예: react-icons 라이브러리 사용) /}
-<span className={styles.userIcon}>👤</span> {/ 임시 사용자 아이콘 */}
-            </div>
-        </header>
-    );
+  const isLoggedIn = false; // 임시 로그인 상태
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.leftSection}> {/* 로고와 주요 네비게이션을 묶는 div */}
+        <div className={styles.logo}>
+          <Link to="/">로고</Link>
+        </div>
+        <nav className={styles.navigation}>
+          <ul>
+            <li>
+              <NavLink
+                to="/news"
+                className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}
+              >
+                뉴스
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/job_search"
+                className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}
+              >
+                채용정보
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <div className={styles.userActions}>
+        {isLoggedIn ? (
+          <>
+            <span className={styles.userIcon}>
+              👤 {/* <UserCircle size={28} /> */}
+            </span>
+          </>
+        ) : (
+          <>
+            <Link to="/users/login" className={styles.authLink}>로그인</Link>
+            <Link to="/users/signup" className={`${styles.authLink} ${styles.signupButton}`}>회원가입</Link>
+          </>
+        )}
+      </div>
+    </header>
+  );
 }
 
 export default Header;
