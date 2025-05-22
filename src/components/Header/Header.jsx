@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom'; // NavLink 추가 (활성 링크 스타일링용)
 import styles from './Header.module.css';
+import logo from '../../assets/logo.png';
 // import { UserCircle } from 'lucide-react'; // 예시: 아이콘 라이브러리 사용 시
 
 function Header() {
@@ -10,7 +11,7 @@ function Header() {
     <header className={styles.header}>
       <div className={styles.leftSection}> {/* 로고와 주요 네비게이션을 묶는 div */}
         <div className={styles.logo}>
-          <Link to="/">로고</Link>
+          <Link to="/"><img src={logo} alt="logo" style={{ width: '100%', height: 'auto' }} /></Link>
         </div>
         <nav className={styles.navigation}>
           <ul>
