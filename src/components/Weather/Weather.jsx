@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Weather.module.css'; // CSS 모듈 경로
+import { API_BASE_URL } from '../../api/api';
 
 function Weather() {
   const [weatherData, setWeatherData] = useState(null);
@@ -13,8 +14,7 @@ function Weather() {
       try {
         setLoading(true);
         setError(null);
-        // const response = await axios.get('http://localhost:8080/api/weather/latest'); // 백엔드 날씨 API
-        const response = await axios.get('https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/api/weather/latest'); // 백엔드 날씨 API
+        const response = await axios.get(`${API_BASE_URL}/api/weather/latest`);
         console.log("[Weather.jsx] API 응답:", response.data);
         if (response.data && typeof response.data.score !== 'undefined') { // score 필드가 있는지로 데이터 유효성 판단 (예시)
           setWeatherData(response.data);

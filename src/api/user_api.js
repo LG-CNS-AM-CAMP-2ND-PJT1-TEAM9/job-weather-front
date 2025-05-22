@@ -1,9 +1,10 @@
-// const API_BASE_URL="http://localhost:8080/users"
-const API_BASE_URL="https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/users"
+import { API_BASE_URL } from './api';
+
+const USER_URL = `${API_BASE_URL}/users`;
 
 //회원가입
 export const createUser = async (json) => {
-    const url = API_BASE_URL + "/signup";
+    const url = USER_URL + "/signup";
     const res = await fetch(url,{
         method : "post",
         headers:{
@@ -14,12 +15,11 @@ export const createUser = async (json) => {
     });
     const data = await res.json();
     return data;
-
 };
 
 //닉네임 중복 여부
 export const nicknameUser = async (newNickname) =>{
-    const url = API_BASE_URL +"/nickname?nickname="+newNickname ;
+    const url = USER_URL +"/nickname?nickname="+newNickname ;
     const res = await fetch(url,{
         method : "get",
         headers:{
@@ -31,11 +31,10 @@ export const nicknameUser = async (newNickname) =>{
     return data;
 };
 
-
 //로그인
 export const userLogin = async (json) =>{
     console.log(json);
-    const url = API_BASE_URL +"/login";
+    const url = USER_URL +"/login";
     const res = await fetch(url,{
         method : "post",
         headers:{
@@ -55,7 +54,7 @@ export const userLogin = async (json) =>{
 
 //회원가입 여부
 export const emailCheck = async (newEmail) =>{
-    const url = API_BASE_URL +"/email?email="+encodeURIComponent(newEmail) ;
+    const url = USER_URL +"/email?email="+encodeURIComponent(newEmail) ;
     const res = await fetch(url,{
         method : "get",
         headers:{
@@ -70,7 +69,7 @@ export const emailCheck = async (newEmail) =>{
 //비밀번호 재설정
 export const resetPassWord = async (json) => {
     console.log(json);
-    const url = API_BASE_URL + "/reset-password";
+    const url = USER_URL + "/reset-password";
     const res = await fetch(url,{
         method : "post",
         headers:{
@@ -81,5 +80,4 @@ export const resetPassWord = async (json) => {
     });
     const data = await res.json();
     return data;
-
 };
