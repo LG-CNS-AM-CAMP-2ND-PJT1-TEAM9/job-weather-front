@@ -12,7 +12,6 @@ function MainPage() {
         <Weather />
         <RecommendationSection />
       </main>
-      <Footer />
     </div>
   );
 }
