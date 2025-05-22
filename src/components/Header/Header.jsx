@@ -4,7 +4,7 @@ import styles from './Header.module.css';
 // import { UserCircle } from 'lucide-react'; // 예시: 아이콘 라이브러리 사용 시
 
 function Header() {
-  const isLoggedIn = true; // 억지로 저 이모지 띄우게 함
+  const isLoggedIn = false; // 억지로 저 이모지 띄우게 함
 
   return (
     <header className={styles.header}>
@@ -37,6 +37,7 @@ function Header() {
       <div className={styles.userActions}>
         {isLoggedIn ? (
           <>
+          {/*누르면 알람 페이지로로*/}
             <Link to="/alarm" span className={styles.userIcon}>
               👤 {/* <UserCircle size={28} /> */}
             </Link>

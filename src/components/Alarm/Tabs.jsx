@@ -9,7 +9,7 @@ function Tabs({ activeTab }) {
         className={`tab ${activeTab === 'news' ? 'active' : ''}`}
         onClick={() => navigate('/mypage')}
       >
-        내 소식
+        마이페이지
       </button>
       <button
         className={`tab ${activeTab === 'keywords' ? 'active' : ''}`}
