@@ -17,14 +17,9 @@
   /* gap: 30px; */ /* 로고와 네비게이션 사이 간격은 아래에서 개별적으로 조정 */
 }
 
-.logo a {
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #333;
-  text-decoration: none;
-  margin-right: 40px; /* 로고와 첫번째 네비게이션 메뉴(ul) 사이의 간격 */
-  display: flex; /* 로고 텍스트 자체의 수직 중앙 정렬을 위해 */
-  align-items: center;
+.logo {
+  width: 200px;
+  margin-right: 40px;
 }
 
 .navigation { /* nav 태그 자체 */
