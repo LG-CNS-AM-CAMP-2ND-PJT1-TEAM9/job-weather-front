@@ -4,7 +4,7 @@ import './Signup.css'
 import { createUser ,emailCheck,nicknameUser} from "../api/user_api";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
-
+import { API_BASE_URL } from '../api/api';
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -26,7 +26,7 @@ const Signup = () => {
         
      const handleKakaoOauthLogin = async () => {
         try {
-            const res = await fetch("http://localhost:8080/users/kakaologin",{
+            const res = await fetch(`${API_BASE_URL}/users/kakaologin`,{
                 method:"get",
                 credentials: "include",
             });
@@ -38,7 +38,7 @@ const Signup = () => {
     };
       const handleNaverOauthLogin  = async () => {
         try {
-            const res = await fetch("http://localhost:8080/users/naverlogin", {
+            const res = await fetch(`${API_BASE_URL}/users/naverlogin`, {
                 method: "get",
                 credentials: "include",
             });
