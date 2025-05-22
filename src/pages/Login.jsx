@@ -4,7 +4,7 @@ import './Login.css'
 import Swal from 'sweetalert2';
 import { userLogin } from "../api/user_api";
 import { useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 const Login = () => {
     const [email, setEmail] = useState("");
     const [pw, setPW] = useState("");
@@ -45,7 +45,9 @@ const Login = () => {
     return (
 
         <div className="login-container">
-            <h1>job_Weather</h1>
+            <Link to="/">
+            <img src="/img/goodjob-2.png" alt="홈으로 이동" style={{ height: "100px", cursor: "pointer" }} />
+          </Link>
             <div className="login-group">
                 <label className="login-label">이메일</label>
                     {!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email) && email.length > 0 && (
