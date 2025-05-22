@@ -14,7 +14,7 @@
 .modalContent {
   position: fixed;
   background-color: #fff;
-  border-radius: 10px;
+  border-radius: 8px;
   width: 40vw;
   /* height: 50vh; */
   min-height: 350px;
@@ -51,23 +51,23 @@
 .buttonGroup {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  margin-top: auto;
-}
-
-.buttonGroup button {
-  margin-top: 3rem;
-  padding: 10px 30px;
-  font-size: clamp(1em, 2vw, 1.1em);
-  font-weight: 500;
+  gap: 1rem;
+  margin-top: 1rem;
   cursor: pointer;
-  border: 1px solid #ccc;
-  background-color: #f9f9f9;
-  color: #555;
-  transition: background-color 0.2s, color 0.2s;
-  border-radius: 5px;
 }
 
-.buttonGroup button + button {
-  margin-left: 40px;
+.cancelButton {
+  background-color: #333;
+  color: #eee;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+.confirmButton {
+  background-color: #f9f9f9;
+  color: #333;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
 }

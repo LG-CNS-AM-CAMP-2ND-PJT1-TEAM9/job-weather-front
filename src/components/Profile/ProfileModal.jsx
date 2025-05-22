@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { checkPw, printProfile } from "../../api/mypage_api";
 import styles from "./Profile.module.css";
-import { useNavigate } from "react-router-dom";
 
 const ProfileModal = ({ onClose, onSubmit }) => {
   const [step, setStep] = useState(1);
   const [pw, setPw] = useState("");
+  const [nicknameError, setNicknameError] = useState("");
   const [pwconfirm, setPwconfirm] = useState("");
   const [pwError, setPwError] = useState("");
   const [pwConfirmError, setPwConfirmError] = useState("");
@@ -16,16 +15,25 @@ const ProfileModal = ({ onClose, onSubmit }) => {
     userNickname: "",
     userPhone: "",
     userPw: "",
+    userSocialId: "",
   });
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await printProfile();
       setProfile(data);
+
+      if (data.userSocialId == null) {
+        setStep(1);
+        console.log("setting step to", 1); // 상태 설정하려는 값을 출력
+      } else {
+        setStep(2);
+      }
     };
     fetchData();
   }, []);
 
+  // 비밀번호 확인
   const handlecheckPw = async () => {
     const res = await checkPw(pw);
 
@@ -36,6 +44,10 @@ const ProfileModal = ({ onClose, onSubmit }) => {
     }
   };
 
+  const checkNickname = (nickname) => {
+    if (!nickname) return false;
+    return nickname.trim().length >= 2;
+  };
   const checkPW = (pw) => {
     const regex = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
     return regex.test(pw);
@@ -61,7 +73,13 @@ const ProfileModal = ({ onClose, onSubmit }) => {
       [name]: value,
     }));
 
-    if (name == "userPw") {
+    if (name == "userNickname") {
+      if (!checkNickname(value)) {
+        setNicknameError("닉네임은 두 글자 이상이어야 합니다");
+      } else {
+        setNicknameError("");
+      }
+    } else if (name == "userPw") {
       if (!checkPW(value)) {
         setPwError(
           "비밀번호는 영문, 숫자, 특수기호를 포함한 8~16자여야 합니다"
@@ -96,8 +114,15 @@ const ProfileModal = ({ onClose, onSubmit }) => {
                 placeholder="비밀번호"
               />
               <div className={styles.buttonGroup}>
-                <button onClick={onClose}>취소</button>
-                <button onClick={handlecheckPw}>확인</button>
+                <button className={styles.cancelButton} onClick={onClose}>
+                  취소
+                </button>
+                <button
+                  className={styles.confirmButton}
+                  onClick={handlecheckPw}
+                >
+                  확인
+                </button>
               </div>
             </div>
           </div>
@@ -113,6 +138,7 @@ const ProfileModal = ({ onClose, onSubmit }) => {
               <div className={styles.errorSummary}>
                 {pwError && <p>{pwError}</p>}
                 {pwConfirmError && <p>{pwConfirmError}</p>}
+                {nicknameError && <p>{nicknameError}</p>}
               </div>
               <div className={styles.formRow}>
                 <label>이름</label>
@@ -121,6 +147,7 @@ const ProfileModal = ({ onClose, onSubmit }) => {
                   name="userName"
                   value={profile.userName}
                   readOnly
+                  className={styles.readOnlyInput}
                 />
               </div>
               <div className={styles.formRow}>
@@ -130,6 +157,7 @@ const ProfileModal = ({ onClose, onSubmit }) => {
                   name="email"
                   value={profile.email}
                   readOnly
+                  className={styles.readOnlyInput}
                 />
               </div>
               <div className={styles.formRow}>

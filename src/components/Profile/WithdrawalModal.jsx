@@ -55,8 +55,15 @@ const WithdrawalModal = ({ onClose }) => {
                   placeholder="비밀번호"
                 />
                 <div className={styles.buttonGroup}>
-                  <button onClick={onClose}>취소</button>
-                  <button onClick={handlecheckPw}>확인</button>
+                  <button className={styles.cancelButton} onClick={onClose}>
+                    취소
+                  </button>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={handlecheckPw}
+                  >
+                    확인
+                  </button>
                 </div>
               </div>
             </div>
@@ -73,8 +80,15 @@ const WithdrawalModal = ({ onClose }) => {
                 <h2>회원 탈퇴 확인</h2>
                 <p>정말 회원 탈퇴를 진행하시겠습니까?</p>
                 <div className={styles.buttonGroup}>
-                  <button onClick={onClose}>아니오</button>
-                  <button onClick={handleWithdrawal}>예</button>
+                  <button className={styles.cancelButton} onClick={onClose}>
+                    아니오
+                  </button>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={handleWithdrawal}
+                  >
+                    예
+                  </button>
                 </div>
               </div>
             </div>
