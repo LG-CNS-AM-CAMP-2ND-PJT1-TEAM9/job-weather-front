@@ -1,0 +1,74 @@
+/* src/components/NewsCard/NewsCard.module.css */
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* 카드가 링크 전체 영역을 차지하도록 */
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color, #e0e0e0); /* 전역 CSS 변수 사용 예시 */
+  border-radius: var(--border-radius-base, 8px);
+  padding: 20px;
+  text-align: left;
+  box-shadow: var(--box-shadow-sm, 0 2px 5px rgba(0, 0, 0, 0.07));
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 180px; /* 뉴스 카드 최소 높이 */
+  height: 100%; /* 부모 그리드 셀 높이에 맞춤 (선택적) */
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow-md, 0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+.title {
+  font-size: 1.1em; /* JobCard보다 약간 작게 */
+  font-weight: bold;
+  color: var(--text-color-base, #333);
+  margin-top: 0;
+  margin-bottom: 10px;
+  line-height: 1.4;
+  /* 여러 줄 말줄임 (필요시) */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* 두 줄까지 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: calc(1.1em * 1.4 * 2); /* 두 줄 높이 확보 */
+}
+
+.description {
+  font-size: 0.9em;
+  color: var(--text-color-muted, #666);
+  line-height: 1.5;
+  margin-bottom: 15px;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 세 줄까지 표시 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  color: var(--text-color-light, #777);
+  border-top: 1px solid var(--border-color, #e9ecef);
+  padding-top: 10px;
+  margin-top: auto; /* 메타 정보를 카드 하단에 고정 */
+}
+
+.date {
+  /* 스타일 */
+}
+
+.source {
+  /* 스타일 */
+}
