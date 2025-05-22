@@ -3,7 +3,7 @@ function NewNotice() {
   return (
     <div className="new-notice">
       새로운 소식이 있습니다
-      <span className="badge">+2</span> 
+      {/* <span className="badge">+2</span>  */}
     </div>
   );
 }

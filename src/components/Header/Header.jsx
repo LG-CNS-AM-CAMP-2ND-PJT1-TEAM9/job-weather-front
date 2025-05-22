@@ -1,11 +1,24 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom'; // NavLink 추가 (활성 링크 스타일링용)
+import React, { useEffect, useState } from 'react';
+
+import { Link, NavLink,useNavigate} from 'react-router-dom'; // NavLink 추가 (활성 링크 스타일링용)
 import styles from './Header.module.css';
 import logo from '../../assets/logo.png';
+import axios from 'axios';
+
 // import { UserCircle } from 'lucide-react'; // 예시: 아이콘 라이브러리 사용 시
 
 function Header() {
-  const isLoggedIn = true; // 억지로 저 이모지 띄우게 함
+  const navigate = useNavigate();
+  const [user , setUser] = useState(null);
+  useEffect(()=>{
+    axios.get('http://localhost:5173/api/notifications/isLogin', {withCredentials : true})
+    .then((res)=>{
+      setUser(res.data);
+    })
+    .catch(()=>{
+      setUser(null);
+    })
+  },[]);
 
   return (
     <header className={styles.header}>
@@ -34,21 +47,22 @@ function Header() {
           </ul>
         </nav>
       </div>
+<div className={styles.userActions}>
+  {user ? (
+    <span 
+      className={styles.userIcon} 
+      onClick={() => navigate('/alarm')}
+      style={{cursor: 'pointer'}}>
+      👤 
+    </span>
+  ) : (
+    <>
+      <Link to="/users/login" className={styles.authLink}>로그인</Link>
+      <Link to="/users/signup" className={`${styles.authLink} ${styles.signupButton}`}>회원가입</Link>
+    </>
+  )}
+</div>
 
-      <div className={styles.userActions}>
-        {isLoggedIn ? (
-          <>
-            <Link to="/alarm" span className={styles.userIcon}>
-              👤 {/* <UserCircle size={28} /> */}
-            </Link>
-          </>
-        ) : (
-          <>
-            <Link to="/users/login" className={styles.authLink}>로그인</Link>
-            <Link to="/users/signup" className={`${styles.authLink} ${styles.signupButton}`}>회원가입</Link>
-          </>
-        )}
-      </div>
     </header>
   );
 }

@@ -50,6 +50,7 @@ function NotificationList({ page, setPage }) {
           title={n.title}
           time={n.time || '방금 전'}
           isRead={n.isRead}
+          link={n.link}
           type={n.type}
           onDelete={() => handleDelete(n.id)}
         />
