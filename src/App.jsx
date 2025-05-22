@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import './App.css';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 
-import Signup from './pages/signup';
+import Signup from './pages/Signup';
 import Login from './pages/Login';
 import JobSearch from './pages/job_search/job_search.jsx';
 import Resetpw from './pages/Resetpw';
