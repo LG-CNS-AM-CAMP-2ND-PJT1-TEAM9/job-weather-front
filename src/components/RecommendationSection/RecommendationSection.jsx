@@ -36,8 +36,10 @@ function RecommendationSection() {
         setLoadingNews(true);
         setErrorNews(null);
         try {
-          console.log("[useEffect] axios.get 호출 직전. URL: http://localhost:8080/api/main/recommendations");
-          const response = await axios.get('http://localhost:8080/api/main/recommendations');
+          // console.log("[useEffect] axios.get 호출 직전. URL: http://localhost:8080/api/main/recommendations");
+          // const response = await axios.get('http://localhost:8080/api/main/recommendations');
+          console.log("[useEffect] axios.get 호출 직전. URL: https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/api/main/recommendations");
+          const response = await axios.get('https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/api/main/recommendations');
           console.log("[useEffect] API 응답 전체:", response);
           if (response.data && response.data.news) {
             console.log("[useEffect] API에서 받아온 뉴스 데이터:", response.data.news);

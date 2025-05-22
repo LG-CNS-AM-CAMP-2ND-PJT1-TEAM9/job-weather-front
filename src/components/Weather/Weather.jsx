@@ -13,7 +13,8 @@ function Weather() {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get('http://localhost:8080/api/weather/latest'); // 백엔드 날씨 API
+        // const response = await axios.get('http://localhost:8080/api/weather/latest'); // 백엔드 날씨 API
+        const response = await axios.get('https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/api/weather/latest'); // 백엔드 날씨 API
         console.log("[Weather.jsx] API 응답:", response.data);
         if (response.data && typeof response.data.score !== 'undefined') { // score 필드가 있는지로 데이터 유효성 판단 (예시)
           setWeatherData(response.data);

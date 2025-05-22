@@ -1,4 +1,5 @@
-const MYPAGE_URL = "http://localhost:8080/mypage";
+// const MYPAGE_URL = "http://localhost:8080/mypage";
+const MYPAGE_URL = "https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/mypage";
 
 // Mypage
 export const checkLogin = async () => {
@@ -78,7 +79,8 @@ export const unLikedItem = async (item, itemId) => {
 };
 
 export const deleteUser = async () => {
-  const url = "http://localhost:8080/users/delete";
+  // const url = "http://localhost:8080/users/delete";
+  const url = "https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/users/delete";
   const res = await fetch(url, {
     method: "DELETE",
     credentials: "include",

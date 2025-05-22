@@ -1,4 +1,5 @@
-const API_BASE_URL="http://localhost:8080/users"
+// const API_BASE_URL="http://localhost:8080/users"
+const API_BASE_URL="https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/users"
 
 //회원가입
 export const createUser = async (json) => {

@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://localhost:8080/news";
+// const API_BASE_URL = "http://localhost:8080/news";
+const API_BASE_URL = "https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/news";
 
 // 뉴스 검색
 export const fetchNews = async (searchTerm = '') => {

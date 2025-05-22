@@ -11,7 +11,8 @@ function NotificationList({ page, setPage }) {
 
   //  백엔드에서 사용자 맞춤 알림 불러오기
   useEffect(() => {
-    axios.post('http://localhost:8080/api/notifications/user-matching', {userSn:7}, { withCredentials: true })
+    // axios.post('http://localhost:8080/api/notifications/user-matching', {userSn:7}, { withCredentials: true })
+    axios.post('https://port-0-job-weather-back-maz0osy29beb3cb3.sel4.cloudtype.app/api/notifications/user-matching', {userSn:7}, { withCredentials: true })
     //유저 매칭을 부르는데 어떤 사용자를 가져올지...
       .then((res) => {
         // 받은 데이터를 최신순 정렬 (옵션)
