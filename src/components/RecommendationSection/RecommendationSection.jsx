@@ -37,8 +37,8 @@ function RecommendationSection() {
         setLoadingNews(true);
         setErrorNews(null);
         try {
-          console.log("[useEffect] axios.get 호출 직전. URL:", `${API_BASE_URL}/api/main/recommendations`);
-          const response = await axios.get(`${API_BASE_URL}/api/main/recommendations`);
+          console.log("[useEffect] axios.get 호출 직전. URL: http://localhost:8080/api/main/recommendations");
+          const response = await axios.get('http://localhost:8080/api/main/recommendations');
           console.log("[useEffect] API 응답 전체:", response);
           if (response.data && response.data.news) {
             console.log("[useEffect] API에서 받아온 뉴스 데이터:", response.data.news);
