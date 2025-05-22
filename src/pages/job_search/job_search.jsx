@@ -584,7 +584,9 @@ const JobSearch = () => {
                   </div>
 
                   <div
-                    className={styles["job-bookmark"]}
+                    className={`${styles["job-bookmark"]} ${
+                      job.isBookmarked ? styles.liked : ""
+                    }`}
                     onClick={() =>
                       handleBookmarkClick(job.id, job.isBookmarked)
                     }
