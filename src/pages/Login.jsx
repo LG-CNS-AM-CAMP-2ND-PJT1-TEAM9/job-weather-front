@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import { userLogin } from "../api/user_api";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from '../api/api';
+
 const Login = () => {
     const [email, setEmail] = useState("");
     const [pw, setPW] = useState("");
@@ -18,7 +20,7 @@ const Login = () => {
 
     const handleKakaoOauthLogin = async () => {
         try {
-            const res = await fetch("http://localhost:8080/users/kakaologin", {
+            const res = await fetch(`${API_BASE_URL}/users/kakaologin`, {
                 method: "get",
                 credentials: "include",
             });
@@ -31,7 +33,7 @@ const Login = () => {
 
     const handleNaverOauthLogin  = async () => {
         try {
-            const res = await fetch("http://localhost:8080/users/naverlogin", {
+            const res = await fetch(`${API_BASE_URL}/users/naverlogin`, {
                 method: "get",
                 credentials: "include",
             });
