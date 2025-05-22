@@ -10,6 +10,7 @@ import Resetpw from './pages/Resetpw';
 import MainPage from './pages/MainPage/MainPage';
 import News from './pages/News/News';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 import Mypage from "./pages/mypage/Mypage.jsx";
 
 //알람경로
@@ -55,6 +56,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <PageRoutesWithLayout />
+      <Footer />
     </BrowserRouter>
   );
 }
