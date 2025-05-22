@@ -1,20 +1,21 @@
 import React from 'react';
 import styles from './Footer.module.css';
-
+import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         <div className={styles.brandInfo}>
-          {/* TODO: 로고 아이콘 */}
-          <div className={styles.brandIcon}>🧊</div> {/* 임시 아이콘 */}
-          <span className={styles.brandName}>(가제)취업하기 좋은 날</span>
+          <Link to="/">
+            <img src="/img/goodjob.png" alt="홈으로 이동" style={{ height: "100px", cursor: "pointer" }} />
+          </Link>
+         
         </div>
         <div className={styles.footerLinks}>
           {/* TODO: 실제 링크 및 내용으로 변경 */}
-          <p>설명설명</p>
-          <p>연락처 연락처</p>
-          <p>뭐를 사용했습니다</p>
+          <p>LG CNS AM Inspire Camp 2기</p>
+          <p>9조 김지은 문지욱 안효준 윤준서 정모경 조수빈</p>
+          <p>https://github.com/LG-CNS-AM-CAMP-2ND-PJT1-TEAM9</p>
           {/* <a href="/terms">이용약관</a>
           <a href="/privacy">개인정보처리방침</a>
           <a href="/contact">고객센터</a> */}
