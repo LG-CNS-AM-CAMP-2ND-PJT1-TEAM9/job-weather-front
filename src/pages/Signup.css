@@ -6,26 +6,26 @@
     border : 2px solid black;
 }
 
-.signup-group input {
-  display: block;
-  border: 1px solid black;
-  width: 40vw;
-  max-width: 800px;
-  border-radius: 0;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-  height: 1vw;
+input {
+ display: block;
+ border : 1px solid black;
+ width : 40vw;
+ max-width: 800px;
+ border-radius: 0;
+ margin : 0 auto;
+ padding: 20px;
+ box-sizing: border-box;
+ height: 1vw;
 }
 
-.signup-group {
+.form-group {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.signup-group label{
+label{
      display: flex;
      margin-left: 10%;
      margin-bottom: 5px;
@@ -38,11 +38,6 @@
  margin-top: 5px;
 }
 
-#signup_checkemail {
-  font-size: 0.7em;
-  margin-left: 350px;
-  margin-top: 5px;
-}
 
 
 #emailFormat{
