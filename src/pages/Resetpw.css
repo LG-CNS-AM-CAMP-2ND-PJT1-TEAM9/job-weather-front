@@ -1,4 +1,4 @@
-.signup-container{
+.resetpw-container{
     width: 50vw;
     max-width: 1200px;
     margin: 0 auto;
@@ -6,7 +6,8 @@
     border : 2px solid black;
 }
 
-.signup-group input {
+
+.resetpw-group input {
   display: block;
   border: 1px solid black;
   width: 40vw;
@@ -18,30 +19,19 @@
   height: 1vw;
 }
 
-.signup-group {
+
+.resetpw-group {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.signup-group label{
+.resetpw-group label{
      display: flex;
      margin-left: 10%;
      margin-bottom: 5px;
      align-self: flex-start;
-}
-
-#available{
- font-size: 0.7em;
- margin-left: 350px;
- margin-top: 5px;
-}
-
-#signup_checkemail {
-  font-size: 0.7em;
-  margin-left: 350px;
-  margin-top: 5px;
 }
 
 
@@ -57,7 +47,7 @@
  margin-top: 5px;
 }
 
-#signup_bt{
+#save_bt{
     width : 40vw;
     max-width: 800px;
     margin: 20px;
@@ -72,7 +62,8 @@
     margin-right: 8%;
 }
 
-.kakao, .naver {
-  width: 5vw !important;
-  margin: 3%;
+
+
+#resetPw{
+    margin-left: 30vw;
 }
