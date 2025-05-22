@@ -222,8 +222,7 @@
   background-color: #f1f5f9;
 }
 
-/* 스크랩 기능 구현 시 주석 해제 - 스크랩 된 별은 ★ */
-/* .job-bookmark.liked {
+.job-bookmark.liked {
   color: #f59e0b;
   font-weight: bold;
-} */
+}
