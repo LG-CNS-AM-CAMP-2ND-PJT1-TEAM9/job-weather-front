@@ -64,8 +64,8 @@
 
     .detailsButton {
       background-color: transparent;
-      color: #007bff;
-      border: 1px solid #007bff;
+      color: black;
+      border: 1px solid black;
       padding: 8px 15px;
       border-radius: 4px;
       cursor: pointer;
@@ -78,6 +78,6 @@
     }
 
     .detailsButton:hover {
-      background-color: #007bff;
+      background-color: black;
       color: white;
     }
