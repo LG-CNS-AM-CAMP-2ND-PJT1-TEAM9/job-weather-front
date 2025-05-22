@@ -4,26 +4,28 @@ import JobCard from '../JobCard/JobCard';
 import NewsCard from '../NewsCard/NewsCard';
 import styles from './RecommendationSection.module.css';
 
-const dummyJobPostings = [
-  { id: 1, category: "금융권 IT", title: "IBK기업은행 체험형..", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 2, category: "대기업 SI", title: "삼성SDS ...", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 3, category: "대기업 SI", title: "CJ그룹 ...", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 4, category: "부트캠프", title: "LG CNS AM ...", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
+// 채용공고 탭에 표시할 고정된 더미 데이터 (4개)
+const fixedDummyJobs = [
+  { id: 'dummy-job-1', category: "IT/기술", title: "웹 프론트엔드 개발자 (신입/경력)", description: "React, Vue.js 경험자 우대. 함께 성장할 열정적인 인재를 찾습니다." },
+  { id: 'dummy-job-2', category: "데이터 분석", title: "데이터 사이언티스트 (주니어)", description: "SQL, Python 활용 능력 필수. 데이터 기반 의사결정을 지원합니다." },
+  { id: 'dummy-job-3', category: "모바일 앱 개발", title: "Android 앱 개발자 (신입)", description: "Kotlin 또는 Java 사용. 사용자 중심의 앱 개발에 참여하세요." },
+  { id: 'dummy-job-4', category: "서버/백엔드", title: "Java 백엔드 개발자 (경력무관)", description: "Spring Boot 기반 시스템 개발 및 운영. MSA 환경 경험자 환영." },
 ];
 
-const ITEMS_PER_PAGE = 4;
+// 뉴스 탭에서 한 페이지에 보여줄 아이템 수 (페이지네이션용)
+const NEWS_ITEMS_PER_PAGE = 4;
 
 function RecommendationSection() {
-  const [activeTab, setActiveTab] = useState('jobs'); // 초기 탭을 'jobs'로 설정
+  // 초기 탭을 'news'로 변경
+  const [activeTab, setActiveTab] = useState('news');
   const [currentPage, setCurrentPage] = useState(1);
 
   const [recommendedNews, setRecommendedNews] = useState([]);
   const [loadingNews, setLoadingNews] = useState(false);
   const [errorNews, setErrorNews] = useState(null);
 
-  const [recommendedJobs, setRecommendedJobs] = useState(dummyJobPostings);
-  const [loadingJobs, setLoadingJobs] = useState(false);
-  const [errorJobs, setErrorJobs] = useState(null);
+  // 채용공고 데이터는 이제 고정된 더미 데이터를 사용
+  const recommendedJobs = fixedDummyJobs;
 
   useEffect(() => {
     console.log("[useEffect] 현재 활성화된 탭:", activeTab);
@@ -46,16 +48,12 @@ function RecommendationSection() {
           }
         } catch (err) {
           console.error("[useEffect] 추천 뉴스 로딩 실패:", err);
-          // 에러 객체의 상세 내용도 확인 (네트워크 오류, 서버 오류 등)
           if (err.response) {
-            // 요청이 이루어졌으나 서버가 2xx 범위 외의 상태 코드로 응답한 경우
             console.error("[useEffect] 에러 데이터:", err.response.data);
             console.error("[useEffect] 에러 상태 코드:", err.response.status);
           } else if (err.request) {
-            // 요청이 이루어졌으나 응답을 받지 못한 경우
             console.error("[useEffect] 응답 없음, 요청 정보:", err.request);
           } else {
-            // 요청을 설정하는 중에 문제가 발생한 경우
             console.error('[useEffect] 요청 설정 오류:', err.message);
           }
           setErrorNews("추천 뉴스를 불러오는 데 실패했습니다.");
@@ -64,76 +62,68 @@ function RecommendationSection() {
           setLoadingNews(false);
           console.log("[useEffect] 뉴스 데이터 가져오기 완료 (로딩 상태 false).");
         }
-      } else if (activeTab === 'jobs') {
-        console.log("[useEffect] 채용공고 데이터 설정 (현재는 더미 데이터).");
-        // TODO: 채용공고 API 연동 로직
-        setRecommendedJobs(dummyJobPostings);
-        setLoadingJobs(false); // 로딩 상태 초기화
-        setErrorJobs(null);    // 에러 상태 초기화
       }
+      // 채용공고 탭에 대한 API 호출 로직은 없음 (고정 더미 데이터 사용)
     };
 
-    // activeTab이 변경될 때마다 fetchRecommendations 함수를 호출합니다.
-    // 초기 탭이 'jobs'이므로, 처음에는 채용공고 로직이 실행됩니다.
-    // '뉴스' 탭을 클릭하면 activeTab이 'news'로 바뀌고 이 useEffect가 다시 실행됩니다.
-    fetchRecommendations();
+    if (activeTab === 'news') {
+        fetchRecommendations();
+    } else {
+        // 뉴스 탭이 아닐 경우, 뉴스 관련 상태 초기화 (선택적)
+        setRecommendedNews([]); // 뉴스 목록 비우기
+        setLoadingNews(false);  // 로딩 상태 false
+        setErrorNews(null);     // 에러 상태 null
+    }
 
-  }, [activeTab]); // activeTab이 변경될 때마다 이 useEffect 훅을 다시 실행
+  }, [activeTab]);
 
-  let currentData, loadingState, errorState, CardComponent;
+  let currentData, loadingState, errorState, CardComponent, itemsPerPageForPagination;
   if (activeTab === 'jobs') {
     currentData = recommendedJobs;
-    loadingState = loadingJobs;
-    errorState = errorJobs;
+    loadingState = false;
+    errorState = null;
     CardComponent = JobCard;
+    itemsPerPageForPagination = recommendedJobs.length; // 채용공고는 한 페이지에 모두 표시
   } else { // activeTab === 'news'
     currentData = recommendedNews;
     loadingState = loadingNews;
     errorState = errorNews;
     CardComponent = NewsCard;
+    itemsPerPageForPagination = NEWS_ITEMS_PER_PAGE; // 뉴스 페이징 처리
   }
 
-  const totalPages = Math.ceil(currentData.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(currentData.length / itemsPerPageForPagination);
   const paginatedData = currentData.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPageForPagination,
+    currentPage * itemsPerPageForPagination
   );
 
   const handleTabClick = (tabName) => {
     console.log(tabName + " 탭 클릭됨. setActiveTab 호출 예정.");
-    setActiveTab(tabName); // 이 호출로 인해 위의 useEffect가 다시 실행됩니다.
+    setActiveTab(tabName);
     setCurrentPage(1);
   };
 
   const handlePrevPage = () => setCurrentPage((prev) => Math.max(prev - 1, 1));
   const handleNextPage = () => setCurrentPage((prev) => Math.min(prev + 1, totalPages));
 
-  // 렌더링 직전에 상태 값들을 확인
-  // console.log("--- 렌더링 직전 상태 ---");
-  // console.log("activeTab:", activeTab);
-  // console.log("recommendedNews:", recommendedNews);
-  // console.log("paginatedData:", paginatedData);
-  // console.log("loadingState:", loadingState);
-  // console.log("errorState:", errorState);
-  // console.log("----------------------");
-
   return (
     <section className={styles.recommendationSection}>
       <h3 className={styles.sectionTitle}>
-        OOO님을 위한 소식을 확인하세요
+        추천 소식을 확인하세요
       </h3>
       <div className={styles.tabContainer}>
-        <button
-          className={`${styles.tabButton} ${activeTab === 'jobs' ? styles.active : ''}`}
-          onClick={() => handleTabClick('jobs')}
-        >
-          채용공고
-        </button>
         <button
           className={`${styles.tabButton} ${activeTab === 'news' ? styles.active : ''}`}
           onClick={() => handleTabClick('news')}
         >
           뉴스
+        </button>
+        <button
+          className={`${styles.tabButton} ${activeTab === 'jobs' ? styles.active : ''}`}
+          onClick={() => handleTabClick('jobs')}
+        >
+          채용공고
         </button>
       </div>
 
@@ -155,7 +145,7 @@ function RecommendationSection() {
         )}
       </div>
 
-      {currentData.length > ITEMS_PER_PAGE && !loadingState && !errorState && (
+      {currentData.length > itemsPerPageForPagination && !loadingState && !errorState && (
         <div className={styles.paginationControls}>
           <div className={styles.pageIndicators}>
             {[...Array(totalPages)].map((_, index) => (
