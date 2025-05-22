@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api';
+import { API_BASE_URL } from "./api";
 
 // const MYPAGE_URL = "http://localhost:8080/mypage";
 const MYPAGE_URL = `${API_BASE_URL}/mypage`;

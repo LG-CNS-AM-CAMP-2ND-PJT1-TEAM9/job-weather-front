@@ -1,18 +1,20 @@
 import Profile from "../../components/Profile/Profile";
 import Liked from "../../components/Liked/Liked";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
 import Custom from "../../components/Custom/Custom";
-import "./Mypage.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { checkLogin } from "../../api/mypage_api";
+import "./Mypage.css";
 
 const Mypage = () => {
   const navigate = useNavigate();
+  const isChecked = useRef(false);
 
   useEffect(() => {
     async function check() {
+      if (isChecked.current) return;
+      isChecked.current = true;
+
       const res = await checkLogin();
       console.log("status", res.status);
 
