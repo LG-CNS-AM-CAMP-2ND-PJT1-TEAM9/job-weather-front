@@ -1,21 +1,20 @@
+/* RecommendationSection.module.css */
 .recommendationSection {
   box-sizing: border-box;
-  padding: 40px 5%;
+  padding: 40px 5%; /* 좌우 패딩은 유지 */
   width: 100%;
   margin: 20px 0;
   text-align: center;
 }
 
 .sectionTitle {
-  box-sizing: border-box;
   font-size: clamp(1.5em, 3vw, 1.8em);
   font-weight: bold;
   color: #333;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* 탭과의 간격 조정 */
 }
 
 .tabContainer {
-  box-sizing: border-box;
   margin-bottom: 30px;
   display: flex;
   justify-content: center;
@@ -33,7 +32,6 @@
   transition: background-color 0.2s, color 0.2s;
   border-radius: 0;
 }
-
 .tabButton:first-child {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -43,41 +41,44 @@
   border-bottom-right-radius: 5px;
   border-left-width: 0;
 }
-
 .tabButton.active {
   background-color: #007bff;
   color: white;
   border-color: #007bff;
 }
-
 .tabButton:hover:not(.active) {
   background-color: #e9e9e9;
 }
 
+.contentDisplayArea { /* 로딩/에러 메시지와 그리드를 감싸는 영역 */
+  min-height: 300px; /* 카드가 없을 때도 최소 높이 유지 (카드 min-height + gap 고려) */
+}
+
 .contentGrid {
   box-sizing: border-box;
-  display: flex; /* Grid 대신 Flexbox 사용 */
-  justify-content: center; /* 아이템들을 수평 중앙 정렬 */
-  flex-wrap: wrap; /* 화면이 매우 좁을 경우 아이템들이 다음 줄로 넘어가도록 (선택적) */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 화면 너비에 따라 컬럼 개수 자동 조절 */
   gap: 20px; /* 아이템들 사이의 간격 */
   margin-bottom: 30px;
-  padding: 0 10px; /* 좌우 약간의 여백을 주어 너무 붙지 않게 (선택적) */
-  min-height: 280px; /* 기존 최소 높이 유지 */
+  align-items: stretch; /* 그리드 아이템들이 같은 높이를 갖도록 함 (내부 컨텐츠에 따라 다를 수 있음) */
 }
 
-.emptyMessage {
-  /* grid-column: 1 / -1; /* Flexbox에서는 이 속성이 필요 없음 */
-  width: 100%; /* Flex 컨테이너 내에서 전체 너비를 차지하도록 */
-  text-align: center;
-  color: #777;
-  font-size: 1.1em;
-  padding: 50px 0;
+/* 메시지 스타일 */
+.loadingMessage,
+.errorMessage,
+.infoMessage {
   display: flex;
-  align-items: center;
   justify-content: center;
-  min-height: inherit;
+  align-items: center;
+  min-height: 200px; /* 메시지 표시 시 최소 높이 */
+  font-size: 1.1em;
+  color: #555;
+  grid-column: 1 / -1; /* 그리드 내에서 메시지가 전체 너비를 차지하도록 */
 }
+.errorMessage { color: #dc3545; }
 
+
+/* 페이지네이션 스타일 */
 .paginationControls {
   box-sizing: border-box;
   display: flex;
@@ -85,51 +86,26 @@
   align-items: center;
   margin-top: 30px;
   padding: 0 20px;
+  /* visibility: hidden; */ /* 기본적으로 숨기고, 조건부로 보이도록 JS에서 처리하거나, 아래처럼 CSS로 처리 */
 }
 
-.pageIndicators {
-  display: flex;
-  gap: 8px;
-}
+/* 데이터가 ITEMS_PER_PAGE보다 많을 때만 페이지네이션 보이도록 하는 CSS 트릭은 어려움.
+   RecommendationSection.jsx에서 조건부 렌더링 (currentData.length > ITEMS_PER_PAGE) 하는 것이 더 확실함.
+   만약 JS 로직이 정확한데도 안 보인다면, 다른 스타일에 의해 가려졌거나 display:none 된 것일 수 있음.
+*/
 
+.pageIndicators { display: flex; gap: 8px; }
 .dot {
-  width: 10px;
-  height: 10px;
-  background-color: #ccc;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-  cursor: pointer;
+  width: 10px; height: 10px; background-color: #ccc;
+  border-radius: 50%; transition: background-color 0.2s; cursor: pointer;
 }
-
-.dot.activeDot {
-  background-color: #007bff;
-}
-
-.arrowButtons {
-  display: flex;
-  gap: 10px;
-}
-
+.dot.activeDot { background-color: #007bff; }
+.arrowButtons { display: flex; gap: 10px; }
 .arrowButton {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  color: #333;
-  padding: 8px 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1em;
-  line-height: 1;
-  transition: background-color 0.2s, border-color 0.2s;
-  width: 36px;
-  height: 36px;
+  background-color: #fff; border: 1px solid #ccc; color: #333;
+  padding: 8px 12px; border-radius: 50%; cursor: pointer; font-size: 1em;
+  line-height: 1; transition: background-color 0.2s, border-color 0.2s;
+  width: 36px; height: 36px;
 }
-
-.arrowButton:hover:not(:disabled) {
-  background-color: #f0f0f0;
-  border-color: #bbb;
-}
-
-.arrowButton:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+.arrowButton:hover:not(:disabled) { background-color: #f0f0f0; border-color: #bbb; }
+.arrowButton:disabled { opacity: 0.5; cursor: not-allowed; }

@@ -1,21 +1,31 @@
 .signup-container{
-    width: 50vw;
-    max-width: 1200px;
-    margin: 0 auto;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     padding: 20px;
-    border : 2px solid black;
+    width: 40vw;
+    max-width: 1200px;
+    margin: 5vw auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    min-height: 220px;
 }
 
 .signup-group input {
   display: block;
-  border: 1px solid black;
-  width: 40vw;
-  max-width: 800px;
-  border-radius: 0;
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 2px solid #e2e8f0;
+  transition: all 0.3s ease;
+  padding: 12px 20px;
+  font-size: 16px;
   height: 1vw;
+  width: 27vw;
+   max-width: 800px;
+  margin: 0 auto;
+  align-items: center;
+  color: #1e293b;
 }
 
 .signup-group {
@@ -26,53 +36,57 @@
 }
 
 .signup-group label{
-     display: flex;
-     margin-left: 10%;
-     margin-bottom: 5px;
-     align-self: flex-start;
+   text-align: left;
+  margin-right: 65%;
 }
 
 #available{
  font-size: 0.7em;
- margin-left: 350px;
  margin-top: 5px;
+ margin-right:7%;
 }
 
 #signup_checkemail {
   font-size: 0.7em;
-  margin-left: 350px;
-  margin-top: 5px;
+ margin-left: 315px;
+ margin-top: 5px;
+}
+
+#emailFormat_signup{
+  font-size: 0.7em;
+ margin-top: 5px;
+ margin-right:3%;
 }
 
 
 #emailFormat{
  font-size: 0.7em;
- margin-left: 315px;
  margin-top: 5px;
+ margin-left:7%;
 }
 
-#pwFormat{
+#signup-pwFormat{
  font-size: 0.7em;
- margin-left: 315px;
  margin-top: 5px;
+ margin-right:4%;
 }
 
 #signup_bt{
-    width : 40vw;
+  width : 29.5vw;
     max-width: 800px;
     margin: 20px;
     background-color: black;
     color: white;
-    border-radius: 0px;
+    border-radius: 8px;
 }
 
 .socialLoginBtn{
     display: flex;
     justify-content: flex-end;
-    margin-right: 8%;
+    margin-left: 10%;
 }
 
 .kakao, .naver {
-  width: 5vw !important;
-  margin: 3%;
+  width: 3vw !important;
+  margin: 1%;
 }

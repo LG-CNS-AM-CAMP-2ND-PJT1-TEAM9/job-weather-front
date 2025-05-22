@@ -7,7 +7,30 @@ import {
   dummyEmploymentTypes,
 } from "../../data/dummyFilter.jsx";
 
+const useAuth = () => {
+    const [user, setUser] = useState(null);
+    const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+
+    useEffect(() => {
+        console.log("임시 useAuth: 초기 인증 상태 확인 로직 필요");
+
+        //test용 userSn값을 받아오면 그 값을 설정하기
+        setTimeout(() => {
+            console.log("임시 useAuth: 테스트 사용자 설정");
+            setUser({ userSn: 1, userNickname: "TestUser" });
+            setIsLoadingAuth(false);
+        }, 500);
+    }, []);
+
+    return {
+        user,
+        isLoadingAuth,
+    };
+};
+
+
 const JobSearch = () => {
+
   const [locations, setLocations] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [isLocationFilterOpen, setIsLocationFilterOpen] = useState(false);
@@ -392,6 +415,7 @@ const JobSearch = () => {
                       자세히 보기
                     </a>
                   )}
+
                 </div>
               ))}
           </>
