@@ -7,14 +7,20 @@ function NotificationList({ page, setPage }) {
 
   // 알림 데이터 state로 관리
   const [notifications, setNotifications] = useState([]);
+  const [pagedNotifications, setPagedNotifications] = useState([]);
 
   //  백엔드에서 사용자 맞춤 알림 불러오기
   useEffect(() => {
-    axios.post('http://localhost:8080/api/notifications/user-matching', {}, { withCredentials: true })
+    axios.post('http://localhost:8080/api/notifications/user-matching', {userSn:7}, { withCredentials: true })
+    //유저 매칭을 부르는데 어떤 사용자를 가져올지...
       .then((res) => {
         // 받은 데이터를 최신순 정렬 (옵션)
         const sorted = res.data.sort((a, b) => b.id - a.id);
         setNotifications(sorted);
+        setPagedNotifications(sorted.slice(
+          page * itemsPerPage,
+          (page + 1) * itemsPerPage
+        ))
       })
       .catch((err) => {
         console.error('알림 불러오기 실패:', err);
@@ -28,12 +34,6 @@ function NotificationList({ page, setPage }) {
       setPage(maxPage);
     }
   }, [notifications, page, setPage]);
-
-  // 현재 페이지에 해당하는 4개만 추출
-  const pagedNotifications = notifications.slice(
-    page * itemsPerPage,
-    (page + 1) * itemsPerPage
-  );
 
   // 개별 삭제
   const handleDelete = (id) => {
