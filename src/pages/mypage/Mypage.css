@@ -1,4 +1,9 @@
 .mypageContainer {
-  display: block;
-  min-height: auto;
+  /* display: block;
+  min-height: auto; */
+  display: flex; /* MainPageContainer와 유사하게 flex로 변경 */
+  flex-direction: column; /* MainPageContainer와 유사하게 flex-direction 설정 */
+  min-height: 100vh;
+  background-color: #f8fafc; /* 기존 배경색 유지 */
+  text-align: center;
 }

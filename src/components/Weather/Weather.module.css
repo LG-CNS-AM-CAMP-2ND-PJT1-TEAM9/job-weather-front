@@ -5,8 +5,8 @@
   justify-content: center;
   gap: 50px; /* 자식 요소(.weatherVisual, .weatherInfo) 사이의 간격 */
   background-color: #ffffff;
-  padding: 40px 5%; /* 좌우 패딩을 %로 주어 반응형으로 */
-  margin: 20px 0;
+  padding: 10% 5%; /* 좌우 패딩을 %로 주어 반응형으로 */
+  margin: 10% 0;
   width: 100%;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }

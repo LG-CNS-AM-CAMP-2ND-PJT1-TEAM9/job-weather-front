@@ -22,11 +22,11 @@ const Resetpw = () => {
         <div className="resetpw-container">
             <h2>비밀번호 재설정</h2>
             <div className="resetpw-group">
-                <label>이메일
+                <label>이메일</label>
                 {available === false && email.length>0 && (
                     <div id="available" style={{ color: "red" }}>*가입하지 않은 이메일 입니다.</div>
                 )}
-                </label>
+                
                 <input type="text" className="form-control" id="email" name="email" value={email}
 
                     onChange={async (e) => {
@@ -44,13 +44,13 @@ const Resetpw = () => {
             </div>
 
             <div className="resetpw-group">
-                <label>비밀번호
+                <label>비밀번호</label>
                     {!/^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/.test(pw) && pw.length > 0 && (
                         <div id="pwFormat" style={{ color: "red" }}>
-                            8~16자의 영문, 숫자, 특수기호
+                            *8~16자의 영문, 숫자, 특수기호
                         </div>
                     )}
-                </label>
+                
                 <input type="password" className="form-control" id="pw" name="pw" value={pw} 
                 onChange={(e) => setPW(e.target.value)} />
             </div>

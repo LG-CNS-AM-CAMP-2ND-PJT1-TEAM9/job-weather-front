@@ -1,23 +1,52 @@
-import React from 'react';
-import { Link, NavLink } from 'react-router-dom'; // NavLink 추가 (활성 링크 스타일링용)
-import styles from './Header.module.css';
+import React, { useEffect, useState } from "react";
+
+import { Link, NavLink, useNavigate } from "react-router-dom"; // NavLink 추가 (활성 링크 스타일링용)
+import styles from "./Header.module.css";
+import logo from "../../assets/logo.png";
+import axios from "axios";
+import { API_BASE_URL } from "../../api/api";
 // import { UserCircle } from 'lucide-react'; // 예시: 아이콘 라이브러리 사용 시
 
 function Header() {
-  const isLoggedIn = false; // 임시 로그인 상태
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`${API_BASE_URL}/api/notifications/isLogin`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setUser(res.data);
+      })
+      .catch(() => {
+        setUser(null);
+      });
+  }, []);
 
   return (
     <header className={styles.header}>
-      <div className={styles.leftSection}> {/* 로고와 주요 네비게이션을 묶는 div */}
+      <div className={styles.leftSection}>
+        {" "}
+        {/* 로고와 주요 네비게이션을 묶는 div */}
         <div className={styles.logo}>
-          <Link to="/">로고</Link>
+          <Link to="/">
+            <img
+              src={logo}
+              alt="logo"
+              style={{ width: "100%", height: "auto" }}
+            />
+          </Link>
         </div>
         <nav className={styles.navigation}>
           <ul>
             <li>
               <NavLink
                 to="/news"
-                className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navLink} ${styles.active}`
+                    : styles.navLink
+                }
               >
                 뉴스
               </NavLink>
@@ -25,7 +54,11 @@ function Header() {
             <li>
               <NavLink
                 to="/job_search"
-                className={({ isActive }) => isActive ? `${styles.navLink} ${styles.active}` : styles.navLink}
+                className={({ isActive }) =>
+                  isActive
+                    ? `${styles.navLink} ${styles.active}`
+                    : styles.navLink
+                }
               >
                 채용정보
               </NavLink>
@@ -33,18 +66,26 @@ function Header() {
           </ul>
         </nav>
       </div>
-
       <div className={styles.userActions}>
-        {isLoggedIn ? (
-          <>
-            <span className={styles.userIcon}>
-              👤 {/* <UserCircle size={28} /> */}
-            </span>
-          </>
+        {user ? (
+          <span
+            className={styles.userIcon}
+            onClick={() => navigate("/alarm")}
+            style={{ cursor: "pointer" }}
+          >
+            👤
+          </span>
         ) : (
           <>
-            <Link to="/users/login" className={styles.authLink}>로그인</Link>
-            <Link to="/users/signup" className={`${styles.authLink} ${styles.signupButton}`}>회원가입</Link>
+            <Link to="/users/login" className={styles.authLink}>
+              로그인
+            </Link>
+            <Link
+              to="/users/signup"
+              className={`${styles.authLink} ${styles.signupButton}`}
+            >
+              회원가입
+            </Link>
           </>
         )}
       </div>

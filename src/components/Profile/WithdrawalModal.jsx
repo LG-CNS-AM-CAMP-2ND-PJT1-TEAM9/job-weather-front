@@ -1,13 +1,25 @@
-import { useState } from "react";
-import { checkPw, deleteUser } from "../../api/mypage_api";
+import { useEffect, useState } from "react";
+import { checkPw, deleteUser, printProfile } from "../../api/mypage_api";
 import styles from "./WithdrawalModal.module.css";
 import { useNavigate } from "react-router-dom";
 
 const WithdrawalModal = ({ onClose }) => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [pw, setPw] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await printProfile();
+
+      if (data.userSocialId == null) {
+        setStep(1);
+      } else {
+        setStep(2);
+      }
+    };
+    fetchData();
+  }, []);
   const handleWithdrawal = async (e) => {
     e.preventDefault();
     const res = await deleteUser();
@@ -55,8 +67,15 @@ const WithdrawalModal = ({ onClose }) => {
                   placeholder="비밀번호"
                 />
                 <div className={styles.buttonGroup}>
-                  <button onClick={onClose}>취소</button>
-                  <button onClick={handlecheckPw}>확인</button>
+                  <button className={styles.cancelButton} onClick={onClose}>
+                    취소
+                  </button>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={handlecheckPw}
+                  >
+                    확인
+                  </button>
                 </div>
               </div>
             </div>
@@ -73,8 +92,15 @@ const WithdrawalModal = ({ onClose }) => {
                 <h2>회원 탈퇴 확인</h2>
                 <p>정말 회원 탈퇴를 진행하시겠습니까?</p>
                 <div className={styles.buttonGroup}>
-                  <button onClick={onClose}>아니오</button>
-                  <button onClick={handleWithdrawal}>예</button>
+                  <button className={styles.cancelButton} onClick={onClose}>
+                    아니오
+                  </button>
+                  <button
+                    className={styles.confirmButton}
+                    onClick={handleWithdrawal}
+                  >
+                    예
+                  </button>
                 </div>
               </div>
             </div>

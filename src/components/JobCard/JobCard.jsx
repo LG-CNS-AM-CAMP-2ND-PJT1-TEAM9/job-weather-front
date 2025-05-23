@@ -12,7 +12,7 @@ function JobCard({ job }) {
       <h4 className={styles.title}>{job.title || "제목 없음"}</h4>
       <p className={styles.description}>{job.description || "설명 없음"}</p>
       <button className={styles.detailsButton}>
-        Button &gt; {/* TODO: 버튼 텍스트 및 기능 구현 */}
+        지원하기 &gt;&gt; {/* TODO: 버튼 텍스트 및 기능 구현 */}
       </button>
     </div>
   );

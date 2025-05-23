@@ -1,11 +1,13 @@
-const API_BASE_URL = "http://localhost:8080/news";
+import { API_BASE_URL } from './api';
+
+const NEWS_URL = `${API_BASE_URL}/news`;
 
 // 뉴스 검색
 export const fetchNews = async (searchTerm = '') => {
   try {
     const url = searchTerm 
-      ? `${API_BASE_URL}?search=${encodeURIComponent(searchTerm)}`
-      : API_BASE_URL;
+      ? `${NEWS_URL}?search=${encodeURIComponent(searchTerm)}`
+      : NEWS_URL;
 
     const response = await fetch(url, {
       method: 'GET',
@@ -42,7 +44,7 @@ export const fetchNews = async (searchTerm = '') => {
 // 좋아요한 뉴스 목록 조회
 export const getLikedNews = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/liked`, {
+    const response = await fetch(`${NEWS_URL}/liked`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -61,7 +63,7 @@ export const getLikedNews = async () => {
 // 뉴스 좋아요 토글
 export const toggleLikeNews = async (newsSn) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/like`, {
+    const response = await fetch(`${NEWS_URL}/like`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
