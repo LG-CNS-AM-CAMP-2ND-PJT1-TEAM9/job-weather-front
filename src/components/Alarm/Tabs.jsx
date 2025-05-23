@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Tabs({ activeTab }) {
   const navigate = useNavigate();
@@ -6,14 +6,14 @@ function Tabs({ activeTab }) {
   return (
     <div className="tabs">
       <button
-        className={`tab ${activeTab === 'news' ? 'active' : ''}`}
-        onClick={() => navigate('/mypage')}
+        className={`tab ${activeTab === "news" ? "active" : ""}`}
+        onClick={() => navigate("/mypage")}
       >
-        내 소식
+        마이페이지
       </button>
       <button
-        className={`tab ${activeTab === 'keywords' ? 'active' : ''}`}
-        onClick={() => navigate('/keywords')}
+        className={`tab ${activeTab === "keywords" ? "active" : ""}`}
+        onClick={() => navigate("/keywords")}
       >
         관심 키워드
       </button>

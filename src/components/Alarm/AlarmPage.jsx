@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import AHeader from './AHeader';
-import AFooter from './AFooter';
-import Tabs from './Tabs';
-import NewNotice from './NewNotice';
-import NotificationList from './NotificationList';
-import './Alarm.css'; 
+import { useState } from "react";
+import AHeader from "./AHeader";
+import AFooter from "./AFooter";
+import Tabs from "./Tabs";
+import NewNotice from "./NewNotice";
+import NotificationList from "./NotificationList";
+import "./Alarm.css";
 
-function AlarmPage() {
+function AlarmPage({ isLoggedIn }) {
   const [page, setPage] = useState(0);
 
   return (

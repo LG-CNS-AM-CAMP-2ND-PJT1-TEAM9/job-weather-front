@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { API_BASE_URL } from "../../api/api";
 function AHeader() {
-  const [nickname, setNickname] = useState("..."); //
+  const [nickname, setNickname] = useState(""); //
 
   useEffect(() => {
-    const userSn = localStorage.getItem("userSn:7"); //
+    // const userSn = localStorage.getItem("userSn:7"); //
     if (!userSn) return;
 
     axios
@@ -24,14 +24,20 @@ function AHeader() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${API_BASE_URL}/api/logout`,
+      const res = await axios.post(
+        `${API_BASE_URL}/users/logout`,
         {},
         { withCredentials: true }
       );
       localStorage.removeItem("userSn");
       localStorage.removeItem("nickname");
-      window.location.href = "/login";
+
+      if (res.data === "네이버 로그아웃 완료") {
+        //우리 홈페이지로 이동
+        window.location.href = "/";
+      } else {
+        window.location.href = "/users/login";
+      }
     } catch (error) {
       console.error("로그아웃 실패", error);
     }
