@@ -20,6 +20,22 @@ import Custom from "./components/Custom/Custom";
 function PageRoutesWithLayout() {
   const location = useLocation();
   const [layoutClass, setLayoutClass] = useState("app-layout-default"); // 기본값
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/users/isLogin`, {
+          withCredentials: true,
+        });
+        setIsLoggedIn(res.data); // true or false
+      } catch (error) {
+        setIsLoggedIn(false);
+        console.error("로그인 상태 확인 실패", error);
+      }
+    };
+    checkLogin();
+  }, []);
 
   useEffect(() => {
     const path = location.pathname;
@@ -44,7 +60,7 @@ function PageRoutesWithLayout() {
         <Route path="/" element={<MainPage />} />
 
         {/**알람기능 여기서 부터 해봅니댜 */}
-        <Route path="/alarm" element={<AlarmPage />} />
+        <Route path="/alarm" element={<AlarmPage isLoggedIn={isLoggedIn} />} />
         <Route path="/keywords" element={<Custom />} />
       </Routes>
     </div>
