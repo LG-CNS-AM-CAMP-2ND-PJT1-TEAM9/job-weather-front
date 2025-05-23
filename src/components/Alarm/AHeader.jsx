@@ -4,21 +4,33 @@ import { API_BASE_URL } from "../../api/api";
 function AHeader() {
   const [nickname, setNickname] = useState(""); //
 
-  useEffect(() => {
-    // const userSn = localStorage.getItem("userSn:7"); //
-    if (!userSn) return;
+  // useEffect(() => {
+  //   // const userSn = localStorage.getItem("userSn:7"); //
+  //   if (!userSn) return;
 
+  //   axios
+  //     .post(
+  //       `${API_BASE_URL}/api/users/info`,
+  //       { userSn },
+  //       { withCredentials: true }
+  //     )
+  //     .then((res) => {
+  //       setNickname(res.data.nickname); //
+  //     })
+  //     .catch((err) => {
+  //       console.error("닉네임 가져오기 실패:", err);
+  //     });
+  // }, []);
+
+  useEffect(() => {
     axios
-      .post(
-        `${API_BASE_URL}/api/users/info`,
-        { userSn },
-        { withCredentials: true }
-      )
+      .get(`${API_BASE_URL}/users/info`, { withCredentials: true })
       .then((res) => {
-        setNickname(res.data.nickname); //
+        setNickname(res.data.nickname);
       })
       .catch((err) => {
         console.error("닉네임 가져오기 실패:", err);
+        setNickname(null);
       });
   }, []);
 
